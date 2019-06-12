@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlsn:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:xmlsn="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment2"
+        android:name="com.example.imtpmd.ModulesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="367dp"
+        tools:layout_editor_absoluteX="33dp"
+        tools:layout_editor_absoluteY="80dp"
+
+        ></fragment>
+
+    <FrameLayout
+        android:id="@+id/fragmentPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+    <!--dit is dynamisch inladen / dit kan ook op live updates(runtime)-->
+</LinearLayout>
