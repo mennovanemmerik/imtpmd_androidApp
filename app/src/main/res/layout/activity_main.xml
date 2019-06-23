@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+  <!--  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment2"
         android:name="com.example.imtpmd.ModulesFragment"
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteX="33dp"
         tools:layout_editor_absoluteY="80dp"
 
-        ></fragment>
+        ></fragment> -->
 
     <FrameLayout
         android:id="@+id/fragmentPlaceholder"

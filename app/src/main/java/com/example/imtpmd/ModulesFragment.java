@@ -60,11 +60,6 @@ public class ModulesFragment extends ListFragment implements AdapterView.OnItemC
 
     public void openActivity2(String clickedItem) {
 
-        String text = clickedItem;
-
-
-
-
         Intent intent = new Intent(this.getContext(), ModuleActivity.class);
         intent.putExtra(EXTRA_TEXT, clickedItem);
 

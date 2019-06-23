@@ -7,10 +7,42 @@
     tools:context=".ModuleActivity">
 
     <TextView
-        android:id="@+id/textview1"
+        android:id="@+id/tvmodule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="testtest" />
+        android:text="modulenaam" />
+
+    <TextView
+        android:id="@+id/tvbeschrijving"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="16dp"
+        android:text="beschrijving van module"
+        app:layout_constraintTop_toBottomOf="@+id/tvmodule" />
+
+    <TextView
+        android:id="@+id/tvstatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="155dp"
+        android:layout_marginEnd="16dp"
+        android:text="Nog niet ingeschreven"
+        app:layout_constraintTop_toBottomOf="@+id/tvbeschrijving" />
+
+
+    <Button
+        android:id="@+id/btnjoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="228dp"
+        android:text="inschrijven"
+        app:layout_constraintTop_toBottomOf="@+id/tvbeschrijving"
+        tools:layout_editor_absoluteX="123dp" />
+
+
 </RelativeLayout>
