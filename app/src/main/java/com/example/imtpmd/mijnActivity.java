@@ -1,14 +1,12 @@
 package com.example.imtpmd;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
-import java.lang.reflect.Array;
+public class mijnActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-    String [] ray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction fm = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
-        String lijst[] = new String[4];
+        String mijnVakkenLijst[] = new String[4];
 
-        lijst[0]="d";
-        lijst[1]="o";
-        lijst[2]="c";
-        lijst[3]="k";
-        bundle.putStringArray("lijst", lijst);
+        mijnVakkenLijst[0]="d";
+        mijnVakkenLijst[1]="u";
+        mijnVakkenLijst[2]="i";
+        mijnVakkenLijst[3]="tMIJN LAND DEUTCHSLAND";
+        bundle.putStringArray("lijst", mijnVakkenLijst);
         ModulesFragment mtest = new ModulesFragment();
         fm.replace(R.id.fragmentPlaceholder, mtest);
         mtest.setArguments(bundle);
@@ -32,4 +30,3 @@ public class MainActivity extends AppCompatActivity {
         fm.commit();
     }
 }
-
