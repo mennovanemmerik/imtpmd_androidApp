@@ -21,15 +21,12 @@ public class ModulesFragment extends ListFragment implements AdapterView.OnItemC
 
 
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
-
+    String [] ray;
     @Override
     //koppel de layout van jezelf aan layout van parent
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
         return inflater.inflate(R.layout.fragment_modules, viewGroup, false);
     }
-
-
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -38,10 +35,16 @@ public class ModulesFragment extends ListFragment implements AdapterView.OnItemC
         ArrayList<String> modules = new ArrayList<>();
 
 
-        modules.add("ikml");
-        modules.add("ipmedt2");
-        modules.add("mimp");
-        modules.add("gelukt");
+        if(getArguments()!=null){
+            Log.d("REICH","tot hier?---------");
+            String lijst[] = getArguments().getStringArray("lijst");
+
+            for(int i=0;i<lijst.length;i++){
+               modules.add(lijst[i]);
+            }
+        }
+
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, modules);
         setListAdapter(adapter);
