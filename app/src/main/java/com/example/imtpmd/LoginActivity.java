@@ -1,6 +1,7 @@
 package com.example.imtpmd;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,21 +32,34 @@ public class LoginActivity extends AppCompatActivity {
                 validate(Name.getText().toString(),Password.getText().toString());
             }
         });
+        modus("donker");
     }
-    private void validate(String userName, String userPassword){
+    private void validate(String userName, String userPassword) {
 
-        if((userName.equals("")) && (userPassword.equals(""))){
 
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+
+
+
+            if ((userName.equals("")) && (userPassword.equals(""))) {
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                counter--;
+                Info.setText("No of attempts remaining " + String.valueOf(counter));
+                if (counter <= 0)
+                    Login.setEnabled(false);
+            }
+        }
+
+    private void modus(String mode){
+        if(mode == "donker"){
+            this.getWindow().getDecorView().setBackgroundResource(R.color.colorPrimaryDark);
+            Info.setTextColor(Color.WHITE);
         }
         else{
-            counter--;
-            Info.setText("No of attempts remaining "+String.valueOf(counter));
-            if(counter<=0)
-                Login.setEnabled(false);
+            this.getWindow().getDecorView().setBackgroundResource(R.color.colorPrimary);
         }
     }
-
 
 }
