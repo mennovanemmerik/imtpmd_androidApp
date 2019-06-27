@@ -16,11 +16,21 @@
         tools:layout_editor_absoluteX="33dp"
         tools:layout_editor_absoluteY="80dp"
 
-        ></fragment> -->
+        ></fragment>
+  <Button-
+      android:id="@+id/btnNacht"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="228dp"
+      android:text="nacht"
+      android:onClick="nachtModus"
+      tools:layout_editor_absoluteX="123dp" />
+    -->
 
     <FrameLayout
         android:id="@+id/fragmentPlaceholder"
         android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:layout_height="match_parent"></FrameLayout>
     <!--dit is dynamisch inladen / dit kan ook op live updates(runtime)-->
 </LinearLayout>

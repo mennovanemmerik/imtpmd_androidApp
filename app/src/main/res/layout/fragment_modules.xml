@@ -3,13 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"> <!--geld voor wanner telefoon zeiwaards-->
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E91E63"
+        android:background="#FFA"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
+        android:divider="@null"
+
+        android:dividerHeight="20dip"
         >
     </ListView>
 </android.support.constraint.ConstraintLayout>
