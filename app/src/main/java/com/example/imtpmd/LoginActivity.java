@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
@@ -42,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if ((userName.equals("")) && (userPassword.equals(""))) {
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, ListviewActivity.class);
                 startActivity(intent);
             } else {
                 counter--;
