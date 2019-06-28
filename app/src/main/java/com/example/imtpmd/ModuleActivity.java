@@ -18,18 +18,24 @@ public class ModuleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module);
 
-
-
-        Intent intent = getIntent();
-        String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
-
-
         TextView moduleNaam = (TextView) findViewById(R.id.tvmodule);
         TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
 
+        Intent intent = getIntent();
+        String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
 
-        moduleNaam.setText(text);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String mnaam = extras.getString("moduleNaam");
+            moduleNaam.setText(mnaam);
+            getSupportActionBar().setTitle("Keuzevak: "+mnaam);
+        }
+
+
+
+
+
 
 
 

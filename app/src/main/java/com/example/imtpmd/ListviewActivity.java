@@ -14,18 +14,26 @@ import java.util.List;
 
 public class ListviewActivity extends AppCompatActivity  {
 
-    String[] windowArray = {"mijn lieben","fucking","lieben"};
+    String[] windowArray = {"mijn liesdben","fucking","lieben"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
 
+        Bundle extras = getIntent().getExtras();
+        String wlijst = extras.getString("welkeLijst");
+        windowArray[2] = wlijst;
+
+
+
+
+
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_textview,windowArray);
         ListView listView = (ListView)findViewById(R.id.window_list);
         listView.setAdapter(adapter);
 
-        Log.d("reich", "totheir: ");
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -34,6 +42,7 @@ public class ListviewActivity extends AppCompatActivity  {
                 Toast.makeText(ListviewActivity.this, windowArray[position],Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ListviewActivity.this, ModuleActivity.class);
+                intent.putExtra("moduleNaam",windowArray[position]);
                 startActivity(intent);
                 // kijkt in arraylist welke plek word bedoeld
             }

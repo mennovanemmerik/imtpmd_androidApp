@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if ((userName.equals("")) && (userPassword.equals(""))) {
 
-                Intent intent = new Intent(LoginActivity.this, ListviewActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {
                 counter--;
