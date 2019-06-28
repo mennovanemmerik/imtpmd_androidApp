@@ -2,7 +2,9 @@ package com.example.imtpmd;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
@@ -22,14 +25,12 @@ public class ModulesFragment extends ListFragment implements AdapterView.OnItemC
 
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
 
+    LinearLayout co;
     @Override
     //koppel de layout van jezelf aan layout van parent
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
         return inflater.inflate(R.layout.fragment_modules, viewGroup, false);
     }
-
-
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -38,16 +39,24 @@ public class ModulesFragment extends ListFragment implements AdapterView.OnItemC
         ArrayList<String> modules = new ArrayList<>();
 
 
-        modules.add("ikml");
-        modules.add("ipmedt2");
-        modules.add("mimp");
-        modules.add("gelukt");
+        if(getArguments()!=null){
+            Log.d("REICH","tot hier?---------");
+            String lijst[] = getArguments().getStringArray("lijst");
+
+            for(int i=0;i<lijst.length;i++){
+               modules.add(lijst[i]);
+
+            }
+        }
+
+
+    //    ModulesFragment fragment = (ModulesFragment) getFragmentManager().findFragmentById(R.id.list);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, modules);
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
 
-
+        // getListView().setBackgroundColor(Color.BLUE); //IS NIET ALLEN ITEMS MAAR OOK ACHTERGROND?
     }
 
     @Override
