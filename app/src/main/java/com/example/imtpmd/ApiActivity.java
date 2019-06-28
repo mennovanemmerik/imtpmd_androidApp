@@ -2,11 +2,6 @@ package com.example.imtpmd;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< master
-
-public class ApiActivity extends AppCompatActivity {
-
-=======
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,13 +21,10 @@ public class ApiActivity extends AppCompatActivity {
     private TextView tv;
     private RequestQueue mQueue;
 
->>>>>>> Add ApiActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_api);
-<<<<<<< master
-=======
 
         tv = (TextView)findViewById(R.id.response);
         mQueue = Volley.newRequestQueue(this);
@@ -68,6 +60,5 @@ public class ApiActivity extends AppCompatActivity {
             }
         });
         mQueue.add(request);
->>>>>>> Add ApiActivity
     }
 }
