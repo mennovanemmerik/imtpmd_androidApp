@@ -10,11 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
-public class ListviewActivity extends AppCompatActivity  {
+public class ListviewActivity extends AppCompatActivity {
+    String FILE_NAME;
+    ArrayList<String> windowArray = new ArrayList<>();
+    String wlijst;
 
-    String[] windowArray = {"mijn liesdben","fucking","lieben"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +29,28 @@ public class ListviewActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_listview);
 
         Bundle extras = getIntent().getExtras();
-        String wlijst = extras.getString("welkeLijst");
-        windowArray[2] = wlijst;
+        wlijst = extras.getString("welkeLijst");
 
+        Log.d("commie","$$"+wlijst);
 
+        windowArray.add("eerste add in listviewac");
+        Log.d("commie","tothier$$");
+        if(wlijst.equals("allesLijst")){
+           // FILE_NAME = "alle_modules.txt";
+            windowArray.add("ALLES LIJST ADD");
+            getSupportActionBar().setTitle("Alle mogelijke modules");
+        }
+        else if(wlijst.equals("mijnLijst")){
+          //  FILE_NAME = "mijn_modules.txt";
+            windowArray.add("MIJN LIJST ADD");
+            getSupportActionBar().setTitle("Uw persoonlijke modules");
+        }
+        else{
+            Log.d("commie","GEEN GELDIGE LIJST");
+            getSupportActionBar().setTitle("404 geen geldige lijst modules");
+        }
+
+        load();
 
 
 
@@ -39,14 +64,49 @@ public class ListviewActivity extends AppCompatActivity  {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 Log.d("klikkie", "je hebt geklukt op: ");
-                Toast.makeText(ListviewActivity.this, windowArray[position],Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListviewActivity.this, windowArray.get(position),Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ListviewActivity.this, ModuleActivity.class);
-                intent.putExtra("moduleNaam",windowArray[position]);
+                intent.putExtra("moduleNaam", windowArray.get(position));
                 startActivity(intent);
                 // kijkt in arraylist welke plek word bedoeld
             }
         });
 
 
-    }}
+    }
+
+    public void load(){
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput("example.txt");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                sb.append(text).append("\n");
+            }
+
+            windowArray.add(sb.toString());
+            String[] ar = sb.toString().substring(1,sb.length()-2).split(", ", 99);
+            for(int i=0;i<ar.length;i++){
+                windowArray.add(ar[i]);
+            }
+
+
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try{
+                fis.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+    }
+}

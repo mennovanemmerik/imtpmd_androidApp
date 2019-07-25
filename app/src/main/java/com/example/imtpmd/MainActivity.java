@@ -24,14 +24,16 @@ public class MainActivity extends AppCompatActivity {
     public void naarAlles(View v) {
         Log.d("note", "naarAlles: aangeroep ");
         Intent intent = new Intent(MainActivity.this, ListviewActivity.class);
-        intent.putExtra("welkeLijst","alles");
+
+        intent.putExtra("welkeLijst", "allesLijst");
         startActivity(intent);
 
     };
     public void naarMijn(View v) {
         Log.d("note", "naarmijn aangere: ");
         Intent intent = new Intent(MainActivity.this, ListviewActivity.class);
-        intent.putExtra("welkeLijst","mijn");
+
+        intent.putExtra("welkeLijst", "mijnLijst");
         startActivity(intent);
 
     }
