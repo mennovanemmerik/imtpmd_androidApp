@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +31,16 @@ public class ListviewActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         wlijst = extras.getString("welkeLijst");
+        Log.d("e","voor if donkere lucht");
+        if(true){
+            Log.d("e","nu moet het eig kuchtnagt worden");
+            this.getWindow().getDecorView().setBackgroundResource(R.drawable.luchtnacht);
+
+            //boven en onder zijn 2 verschillende opties
+            ImageView layout = (ImageView) findViewById(R.id.background);
+            layout.setBackgroundResource(R.drawable.luchtnacht);
+
+        }
 
         Log.d("commie","$$"+wlijst);
 

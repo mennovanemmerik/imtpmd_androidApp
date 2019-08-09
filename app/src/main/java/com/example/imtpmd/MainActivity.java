@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         intent.putExtra("welkeLijst", "mijnLijst");
         startActivity(intent);
-
     }
+
 }
 

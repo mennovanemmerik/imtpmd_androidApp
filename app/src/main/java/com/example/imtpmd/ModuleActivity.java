@@ -2,6 +2,7 @@ package com.example.imtpmd;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +11,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class ModuleActivity extends AppCompatActivity {
     private Button joinModule;
-
+    String mnaam;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +35,7 @@ public class ModuleActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String mnaam = extras.getString("moduleNaam");
+            mnaam = extras.getString("moduleNaam");
             moduleNaam.setText(mnaam);
             getSupportActionBar().setTitle("Keuzevak: "+mnaam);
         }
@@ -53,8 +61,18 @@ public class ModuleActivity extends AppCompatActivity {
     private void schrijfIn(){
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
 
-       moduleStatus.setText("In afwachting");
+        moduleStatus.setText("In afwachting "+mnaam );
+
         joinModule.setEnabled(false);
+
+        if(new publiek().internetIsConnected()){
+            write2API();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "404 NO INTERNET, try again later", Toast.LENGTH_LONG).show();
+
+
+        }
     };
 
 
@@ -62,6 +80,9 @@ public class ModuleActivity extends AppCompatActivity {
         
     }
 
+    private void write2API(){
+
+    }
 
 
 }
