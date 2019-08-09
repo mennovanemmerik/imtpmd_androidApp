@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
     public void save(View v){
        //String text= mEditText.getText().toString();
-   /*     String text = arrai.toString();
+       String text = arrai.toString();
 
         FileOutputStream fos = null;
         try{
@@ -125,14 +125,16 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                     e.printStackTrace();
                 }
             }
-        } */
+        }
     }
  public void load(View v) {
-     File file = new File(FILE_NAME);
+
+     File file = new File(getApplicationContext().getFilesDir(),FILE_NAME);
      if (!file.exists()) {
          return;
      }
      FileInputStream fis = null;
+
      try {
          fis = openFileInput(FILE_NAME);
          InputStreamReader isr = new InputStreamReader(fis);
@@ -143,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
          while ((text = br.readLine()) != null) {
              sb.append(text).append("\n");
          }
-
+         Log.d("load", "NU MOET HET GLEOAD WORDNE");
          mEditText.setText(sb.toString());
 
      } catch (FileNotFoundException e) {
@@ -178,7 +180,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         if(sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT){
 
             licht = sensorEvent.values[0];
-            mEditText.setText(""+licht);
+         //   mEditText.setText(""+licht);
         }
     }
 
