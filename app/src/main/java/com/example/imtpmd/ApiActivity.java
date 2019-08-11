@@ -2,6 +2,7 @@ package com.example.imtpmd;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -14,7 +15,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class ApiActivity extends AppCompatActivity {
 
@@ -27,17 +27,19 @@ public class ApiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_api);
 
         tv = (TextView)findViewById(R.id.response);
+
         mQueue = Volley.newRequestQueue(this);
 
         jsonParser();
     }
 
     protected void jsonParser() {
-        String url = "http://142.93.237.120/api/keuzevakken";
+        String url = "http://api.mrtvda.nl/api/keuzevakken";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d("array", "Dit werkt");
                 JSONArray jsonArray = null;
                 try {
                     jsonArray = response.getJSONArray("Keuzevakken");
@@ -56,6 +58,7 @@ public class ApiActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                tv.append("hoi");
                 error.printStackTrace();
             }
         });
