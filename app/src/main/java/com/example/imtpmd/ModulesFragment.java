@@ -40,7 +40,6 @@ public class ModulesFragment extends ListFragment implements AdapterView.OnItemC
 
 
         if(getArguments()!=null){
-            Log.d("REICH","tot hier?---------");
             String lijst[] = getArguments().getStringArray("lijst");
 
             for(int i=0;i<lijst.length;i++){
