@@ -5,19 +5,21 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".ListviewActivity"
+    android:background="@drawable/luchtdag"
 
     >
 
-
     <ListView
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/window_list"
         android:divider="@null"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:dividerHeight="50dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:dividerHeight="15dp"
+
         >
 
     </ListView>
