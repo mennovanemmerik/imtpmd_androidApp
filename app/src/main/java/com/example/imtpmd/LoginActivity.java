@@ -163,8 +163,6 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
  }
 
 
-
-
     @Override
     protected void onPause(){
         super.onPause();

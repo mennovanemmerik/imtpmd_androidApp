@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ModuleActivity"
     android:gravity="center_horizontal"
-    android:layout_margin="20dp"
+    android:padding="20dp"
     android:background="#b3d9ff"
 
     >

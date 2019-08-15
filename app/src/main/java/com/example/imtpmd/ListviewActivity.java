@@ -25,8 +25,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -35,12 +37,16 @@ public class ListviewActivity extends AppCompatActivity {
     String FILE_NAME;
     ArrayList<String> windowArray = new ArrayList<>();
     String wlijst;
+    String ALL_MODULE_FILE ="example.txt";
+    String MY_MODULE_FILE ="my_module_file.txt";
     private RequestQueue mQueue;
+    publiek p = new publiek();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("LISTVIEW", "onCreate aangeroepen");
         mQueue = Volley.newRequestQueue(this);
+
 
 
         super.onCreate(savedInstanceState);
@@ -62,13 +68,25 @@ public class ListviewActivity extends AppCompatActivity {
         Log.d("commie","$$"+wlijst);
 
         windowArray.add("eerste add in listviewac");
-        windowArray.add("tweede in listviewac");
+
         Log.d("commie","tothier$$");
         if(wlijst.equals("allesLijst")){
            // FILE_NAME = "alle_modules.txt";
-            windowArray.add("ALLES LIJST ADD IS NOG GELUKT NU OOK OP 13");
-            jsonParser();
-            getSupportActionBar().setTitle("Alle mogelijke modules");
+         //   windowArray.add("ALLES LIJST ADD IS NOG GELUKT NU OOK OP 13");
+
+
+            if(p.internetIsConnected()){
+                jsonParser();
+                getSupportActionBar().setTitle("Alle modules");
+
+            }
+            else{
+                Log.d("API", "ELSE INTENET NIET GECONT");
+                load(ALL_MODULE_FILE);
+                opzet();
+                getSupportActionBar().setTitle("(Geen Internet) Alle modules");
+            }
+
         }
         else if(wlijst.equals("mijnLijst")){
           //  FILE_NAME = "mijn_modules.txt";
@@ -80,33 +98,68 @@ public class ListviewActivity extends AppCompatActivity {
             Log.d("commie","GEEN GELDIGE LIJST");
             getSupportActionBar().setTitle("404 geen geldige lijst modules");
         }
-
-        load();
-
-
-
-
-
-
     }
 
-    public void load(){
+
+    public void save(){
+        Log.d("API", "save: aangeroepen ");
+        //String text= mEditText.getText().toString();
+        String file;
+        if(wlijst=="allesLijst"){
+             file = ALL_MODULE_FILE;
+            Log.d("save", "wLIJST IS ALLESLIJST");
+        }
+        else{
+             file = MY_MODULE_FILE;
+        }
+
+        String text = windowArray.toString();
+       // Log.d("save", "!IMPORTANT SAVE "+text);
+        FileOutputStream fos = null;
+        try{
+            fos = openFileOutput(file,MODE_PRIVATE);
+            fos.write(text.getBytes());
+
+            Toast.makeText(this,"saved to "+getFilesDir()+file,Toast.LENGTH_LONG).show();
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            if(fos!=null){
+                try{
+                    fos.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+
+    public void load(String CHOSEN_FILE){
+        File file = new File(getApplicationContext().getFilesDir(),CHOSEN_FILE);
+        if (!file.exists()) {
+            return;
+        }
         FileInputStream fis = null;
         try {
-            fis = openFileInput("example.txt");
+            fis = openFileInput(CHOSEN_FILE);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
             String text;
-
+            Log.d("API", "WHILE  DOES WELL EXIST");
             while ((text = br.readLine()) != null) {
                 sb.append(text).append("\n");
             }
 
-            windowArray.add(sb.toString());
             String[] ar = sb.toString().substring(1,sb.length()-2).split(", ", 99);
             for(int i=0;i<ar.length;i++){
+                Log.d("load", "ADD LOAD "+ar[i]);
                 windowArray.add(ar[i]);
+
             }
 
 
@@ -151,11 +204,13 @@ public class ListviewActivity extends AppCompatActivity {
                         Log.d("API", "jsonParser: jajaja "+keuzevak);
                     //    Log.d("API", "jsonParser: nenee "+windowArray);
                     }
+                    save();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }finally {
                     opzet();
-                    Log.d("API", "wat: ");
+
+                    Log.d("jsonAPI", "wat: ");
                     return;
                 }
             }
@@ -171,8 +226,6 @@ public class ListviewActivity extends AppCompatActivity {
 
     }
     public void opzet(){
-        Log.d("API", "test: HET REICH ZLA LIJDEN DOT DHET VAN TIJD "+windowArray);
-
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_textview,windowArray);
         ListView listView = (ListView)findViewById(R.id.window_list);
         listView.setAdapter(adapter);
