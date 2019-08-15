@@ -8,6 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 

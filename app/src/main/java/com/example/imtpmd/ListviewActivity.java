@@ -8,8 +8,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,38 +35,45 @@ public class ListviewActivity extends AppCompatActivity {
     String FILE_NAME;
     ArrayList<String> windowArray = new ArrayList<>();
     String wlijst;
-
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("LISTVIEW", "onCreate aangeroepen");
+        mQueue = Volley.newRequestQueue(this);
+
+
         super.onCreate(savedInstanceState);
+
+        Log.d("API", "jsonParser: klaar==== "+windowArray);
+
         setContentView(R.layout.activity_listview);
+
+        Log.d("LISTVIEW", "onCreate: is voorbij setcomntent");
 
         Bundle extras = getIntent().getExtras();
         wlijst = extras.getString("welkeLijst");
         Log.d("e","voor if donkere lucht");
-        if(true){
-            Log.d("e","nu moet het eig kuchtnagt worden");
-            this.getWindow().getDecorView().setBackgroundResource(R.drawable.luchtnacht);
+         donkermodus();
 
-            //boven en onder zijn 2 verschillende opties
-            ImageView layout = (ImageView) findViewById(R.id.background);
-            layout.setBackgroundResource(R.drawable.luchtnacht);
 
-        }
+
 
         Log.d("commie","$$"+wlijst);
 
         windowArray.add("eerste add in listviewac");
+        windowArray.add("tweede in listviewac");
         Log.d("commie","tothier$$");
         if(wlijst.equals("allesLijst")){
            // FILE_NAME = "alle_modules.txt";
-            windowArray.add("ALLES LIJST ADD");
+            windowArray.add("ALLES LIJST ADD IS NOG GELUKT NU OOK OP 13");
+            jsonParser();
             getSupportActionBar().setTitle("Alle mogelijke modules");
         }
         else if(wlijst.equals("mijnLijst")){
           //  FILE_NAME = "mijn_modules.txt";
             windowArray.add("MIJN LIJST ADD");
+            opzet();
             getSupportActionBar().setTitle("Uw persoonlijke modules");
         }
         else{
@@ -65,24 +85,7 @@ public class ListviewActivity extends AppCompatActivity {
 
 
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_textview,windowArray);
-        ListView listView = (ListView)findViewById(R.id.window_list);
-        listView.setAdapter(adapter);
 
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                Log.d("klikkie", "je hebt geklukt op: ");
-                Toast.makeText(ListviewActivity.this, windowArray.get(position),Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(ListviewActivity.this, ModuleActivity.class);
-                intent.putExtra("moduleNaam", windowArray.get(position));
-                startActivity(intent);
-                // kijkt in arraylist welke plek word bedoeld
-            }
-        });
 
 
     }
@@ -118,6 +121,78 @@ public class ListviewActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+    }
+    private void donkermodus(){
+        LoginActivity login = new LoginActivity();
+        if( login.isDonker()){
+            RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_main);
+            layout.setBackgroundResource(R.drawable.luchtnacht);
+        }
+    }
+
+    public void jsonParser() {
+        Log.d("API", "jsonParser: aangeroepen");
+        String url = "http://api.mrtvda.nl/api/keuzevakken";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = response.getJSONArray("Keuzevakken");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject keuzevakken = jsonArray.getJSONObject(i);
+
+                        String keuzevak = keuzevakken.getString("keuzevak");
+
+                        windowArray.add(keuzevak);
+                        Log.d("API", "jsonParser: jajaja "+keuzevak);
+                    //    Log.d("API", "jsonParser: nenee "+windowArray);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }finally {
+                    opzet();
+                    Log.d("API", "wat: ");
+                    return;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error", "Er is iets fout gegaan");
+                error.printStackTrace();
+            }
+        });
+
+        mQueue.add(request);
+
+    }
+    public void opzet(){
+        Log.d("API", "test: HET REICH ZLA LIJDEN DOT DHET VAN TIJD "+windowArray);
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_textview,windowArray);
+        ListView listView = (ListView)findViewById(R.id.window_list);
+        listView.setAdapter(adapter);
+
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                Log.d("klikkie", "je hebt geklukt op: ");
+                Toast.makeText(ListviewActivity.this, windowArray.get(position),Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(ListviewActivity.this, ModuleActivity.class);
+                intent.putExtra("moduleNaam", windowArray.get(position));
+                startActivity(intent);
+                // kijkt in arraylist welke plek word bedoeld
+            }
+        });
+
+
 
     }
 }

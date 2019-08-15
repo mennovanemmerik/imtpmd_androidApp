@@ -9,13 +9,6 @@
     android:background="@drawable/luchtdag"
 
     >
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/luchtdag"
-        android:id="@+id/background"
-        android:scaleType="fitXY"
-        />
 
     <ListView
         android:layout_marginTop="4dp"
