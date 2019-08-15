@@ -54,6 +54,8 @@ public class ListviewActivity extends AppCompatActivity {
         Log.d("API", "jsonParser: klaar==== "+windowArray);
 
         setContentView(R.layout.activity_listview);
+        mQueue = Volley.newRequestQueue(this);
+        jsonParser();
 
         Log.d("LISTVIEW", "onCreate: is voorbij setcomntent");
 
@@ -244,7 +246,10 @@ public class ListviewActivity extends AppCompatActivity {
                 // kijkt in arraylist welke plek word bedoeld
             }
         });
+    }
 
+    protected void jsonParser() {
+        String url = "http://api.mrtvda.nl/api/keuzevakken";
 
 
     }
