@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -46,8 +47,10 @@ public class ModuleActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mQueue = Volley.newRequestQueue(this);
 
-      //  saveLokaalBeschrijving("idepa","idepajemoeder beschrijving epic");
-       // loadLokaleBeschrijving("idepa");
+        // saveLokaalBeschrijving("idepa","idepajemoeder beschrijving epic");
+        // loadLokaleBeschrijving("idepa");
+//        write2API();
+        removeFromAPI();
 
         TextView moduleNaam = (TextView) findViewById(R.id.tvmodule);
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
@@ -60,8 +63,6 @@ public class ModuleActivity extends AppCompatActivity {
 
         schrijfButton = (Button)findViewById(R.id.btnjoin);
         TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
-
-
 
         if (extras != null) {
             Log.d("YAS", "KRIJGT "+extras.getString("moduleNaam")+" MEE WTF AAAAAA");
@@ -95,18 +96,16 @@ public class ModuleActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     private void schrijfUit(String module){
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
         moduleStatus.setText("In afwachting "+mnaam );
         schrijfButton.setEnabled(false);
-
     }
 
     public void fixBeschrijvingAPI(String module) {
-          String url = "http://api.mrtvda.nl/api/keuzevakken/"+module;
+        String url = "http://api.mrtvda.nl/api/keuzevakken/"+module;
         Log.d("APIS", "JSON voor beschrijving is aangeroepen");
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -265,16 +264,47 @@ public class ModuleActivity extends AppCompatActivity {
         return "Er is iets fout gegaan lol //Misschien ff internet fixen?//F ";
     }
 
-    ///////////////////////////////////////////////////
-
     private void write2API(){
           //  user = user
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/add/insblau@insblau.nl/ITREWA";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("inschrijving", "gelukt!");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("inschrijving", "mislukt");
+            }
+        });
+
+        mQueue.add(stringRequest);
     }
     private void removeFromAPI(){
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/delete/15";
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("uitschrijfving", "gelukt!");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("uitschrijving", "mislukt");
+            }
+        });
+
+        mQueue.add(stringRequest);
     }
 
     private void getDescriptionFromAPI(){
-
+        
     }
 }
