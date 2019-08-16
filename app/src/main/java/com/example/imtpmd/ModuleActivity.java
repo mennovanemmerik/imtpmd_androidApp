@@ -49,15 +49,13 @@ public class ModuleActivity extends AppCompatActivity {
 
         // saveLokaalBeschrijving("idepa","idepajemoeder beschrijving epic");
         // loadLokaleBeschrijving("idepa");
-//        write2API();
-        removeFromAPI();
+//
 
         TextView moduleNaam = (TextView) findViewById(R.id.tvmodule);
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
 
         Intent intent = getIntent();
         String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
-
 
         String user = extras.getString("user");
 
@@ -69,6 +67,8 @@ public class ModuleActivity extends AppCompatActivity {
             mnaam = extras.getString("moduleNaam");
             moduleNaam.setText(mnaam);
             getSupportActionBar().setTitle("Keuzevak: "+mnaam);
+            write2API(mnaam);
+//            removeFromAPI(mnaam);
 
             if(p.internetIsConnected()){
                 fixBeschrijvingAPI(extras.getString("moduleNaam"));
@@ -264,9 +264,9 @@ public class ModuleActivity extends AppCompatActivity {
         return "Er is iets fout gegaan lol //Misschien ff internet fixen?//F ";
     }
 
-    private void write2API(){
+    private void write2API(String mnaam){
           //  user = user
-        String url = "http://api.mrtvda.nl/api/inschrijvingen/add/insblau@insblau.nl/ITREWA";
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/add/insblau@insblau.nl/" + mnaam;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -284,7 +284,7 @@ public class ModuleActivity extends AppCompatActivity {
 
         mQueue.add(stringRequest);
     }
-    private void removeFromAPI(){
+    private void removeFromAPI(String mnaam){
         String url = "http://api.mrtvda.nl/api/inschrijvingen/delete/15";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -292,7 +292,7 @@ public class ModuleActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        Log.d("uitschrijfving", "gelukt!");
+                        Log.d("uitschrijving", "gelukt!");
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -305,6 +305,6 @@ public class ModuleActivity extends AppCompatActivity {
     }
 
     private void getDescriptionFromAPI(){
-        
+
     }
 }
