@@ -35,19 +35,23 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     private Button Login;
     private int counter = 5;
     EditText mEditText;
+
     SensorManager sensorManager;
     Sensor sensor;
     public float licht;
-    private String FILE_NAME = "example.txt";
+
+    private String ACC_FILE = "example.txt";
     ArrayList<String> arrai = new ArrayList<>();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mEditText = findViewById(R.id.edit_text);
-        arrai.add("nig");
-        arrai.add("ger");
+
 
 
          sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
@@ -105,14 +109,14 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
     public void save(View v){
        //String text= mEditText.getText().toString();
-       String text = arrai.toString();
+        String text = Name.getText().toString();
 
         FileOutputStream fos = null;
         try{
-            fos = openFileOutput(FILE_NAME,MODE_PRIVATE);
+            fos = openFileOutput(ACC_FILE,MODE_PRIVATE);
             fos.write(text.getBytes());
             mEditText.getText().clear();
-            Toast.makeText(this,"saved to "+getFilesDir()+FILE_NAME,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"saved to "+getFilesDir()+ACC_FILE,Toast.LENGTH_LONG).show();
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch (IOException e){
@@ -129,14 +133,14 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     }
  public void load(View v) {
 
-     File file = new File(getApplicationContext().getFilesDir(),FILE_NAME);
+     File file = new File(getApplicationContext().getFilesDir(),ACC_FILE);
      if (!file.exists()) {
          return;
      }
      FileInputStream fis = null;
 
      try {
-         fis = openFileInput(FILE_NAME);
+         fis = openFileInput(ACC_FILE);
          InputStreamReader isr = new InputStreamReader(fis);
          BufferedReader br = new BufferedReader(isr);
          StringBuilder sb = new StringBuilder();
