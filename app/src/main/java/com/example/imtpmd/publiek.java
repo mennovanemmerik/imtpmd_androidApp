@@ -23,7 +23,7 @@ public class publiek extends AppCompatActivity  {
     SensorManager sensorManager;
     Sensor sensor;
     private String wLijst = "standaart Wlijst";
-
+//     mQueue = Volley.newRequestQueue(this);
     public String getWlijst(){
         return wLijst;
     }

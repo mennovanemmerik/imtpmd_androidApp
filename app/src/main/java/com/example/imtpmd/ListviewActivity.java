@@ -37,6 +37,7 @@ public class ListviewActivity extends AppCompatActivity {
     String FILE_NAME;
     ArrayList<String> windowArray = new ArrayList<>();
     String wlijst;
+    String user;
 
     private RequestQueue mQueue;
     publiek p = new publiek();
@@ -44,7 +45,7 @@ public class ListviewActivity extends AppCompatActivity {
     Bundle extras = new Bundle();
 
     String ALL_MODULE_FILE ="all_module_file.txt";
-    String MY_MODULE_FILE ="my_module_file.txt";
+    String MY_MODULE_FILE ="_module_file.txt";
 
     String ALL_API_url = "http://api.mrtvda.nl/api/keuzevakken";
     String MY_API_url =  "http://api.mrtvda.nl/api/inschrijvingen/insblau@insblau.nl";
@@ -54,37 +55,28 @@ public class ListviewActivity extends AppCompatActivity {
         Log.d("LISTVIEW", "onCreate aangeroepen");
         mQueue = Volley.newRequestQueue(this);
 
-
-
         super.onCreate(savedInstanceState);
-
-        Log.d("API", "jsonParser: klaar==== "+windowArray);
 
         setContentView(R.layout.activity_listview);
         mQueue = Volley.newRequestQueue(this);
-        jsonParser();
-
-        Log.d("LISTVIEW", "onCreate: is voorbij setcomntent");
 
         Bundle extras = getIntent().getExtras();
         wlijst = extras.getString("welkeLijst");
-        Log.d("e","voor if donkere lucht");
-         donkermodus();
 
-        load("acc_file.txt");
+        MY_MODULE_FILE = extras.getString("user")+MY_MODULE_FILE;
+        donkermodus();
 
+        load("acc_file.txt"); //User word ff ingeladen
 
-        Log.d("commie","$$"+wlijst);
+        //windowArray.add("eerste add in listviewac");
+        //windowArray.add("DEZE IS NIET GESCHREIBEN");
 
-        windowArray.add("eerste add in listviewac");
-        windowArray.add("DEZE IS NIET GESCHREIBEN");
-        Log.d("commie","tothier$$");
         if(wlijst.equals("allesLijst")){
            // FILE_NAME = "alle_modules.txt";
          //   windowArray.add("ALLES LIJST ADD IS NOG GELUKT NU OOK OP 13");
 
             if(p.internetIsConnected()){
-                getModulesAPI(ALL_API_url);
+                getAllModulesAPI(ALL_API_url);
                 getSupportActionBar().setTitle("Alle modules");
 
             }
@@ -98,11 +90,12 @@ public class ListviewActivity extends AppCompatActivity {
         }
         else if(wlijst.equals("mijnLijst")){
             if(p.internetIsConnected()){
-                getModulesAPI(MY_API_url);
+                getMyModulesAPI(user);
                 getSupportActionBar().setTitle("Uw modules");
 
             }
             else{
+                load(MY_MODULE_FILE);
                 Log.d("API", "ELSE INTENET NIET GECONT");
                 opzet();
                 getSupportActionBar().setTitle("(Geen Internet) Uw modules");
@@ -178,6 +171,7 @@ public class ListviewActivity extends AppCompatActivity {
             if(isName){
                 windowArray.add(sb.toString());
                 extras.putString("user", sb.toString());
+                user = sb.toString();
                 Log.d("arden", "load: "+sb.toString());
             }
             else {
@@ -210,13 +204,70 @@ public class ListviewActivity extends AppCompatActivity {
         }
     }
 
-    public void getModulesAPI(String url) {
+    public void getMyModulesAPI(String user) {
+        if(true){
+            return;
+            //##
+        }
+        //Deze functie werkt niet omdat ik niet weet hoe het eruit zou zien
+
+        Log.d("myapi", "getMyModulesAPI: met user "+user);
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/"+user;
+        Log.d("myapi", "getMy module API");
+        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("myapi", "yas");
+                JSONArray jsonArray = null;
+
+                try {
+                    Log.d("myapi", "onResponse: wait1s");
+                    jsonArray = response.names();
+
+
+                    Log.d("myapi", "onResponse: "+jsonArray);
+
+
+                    windowArray.clear();
+                    for (int i = 0; i < jsonArray.length(); i++) { //for keuzevak bij user
+                        JSONObject keuzevakken = jsonArray.getJSONObject(i);
+
+                      //  String keuzevak = //;
+
+                        //windowArray.add(keuzevak);
+                      //  Log.d("myapi", "jsonParser: jajaja "+keuzevak);
+                        //    Log.d("API", "jsonParser: nenee "+windowArray);
+                    }
+                    save();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }finally {
+                    opzet();
+
+                    Log.d("myapi", "wat: ");
+                    return;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("myapi", "Er is iets fout gegaan" +error);
+                error.printStackTrace();
+            }
+        });
+
+        mQueue.add(request2);
+
+    }
+    public void getAllModulesAPI(String url) {
       //  String url = "http://api.mrtvda.nl/api/inschrijvingen/insblau@insblau.nl";
         Log.d("API", "jsonParser: aangeroepen2");
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 JSONArray jsonArray = null;
+
                 try {
                     Log.d("APIjson", "onResponse: wait1s");
                     jsonArray = response.getJSONArray("Keuzevakken");
@@ -278,16 +329,12 @@ public class ListviewActivity extends AppCompatActivity {
 
 
                 intent.putExtras(extras);
-                Log.d("YAS", "Intent  ");
+
                 startActivity(intent);
                 // kijkt in arraylist welke plek word bedoeld
             }
         });
     }
 
-    protected void jsonParser() {
-        String url = "http://api.mrtvda.nl/api/keuzevakken";
 
-
-    }
 }
