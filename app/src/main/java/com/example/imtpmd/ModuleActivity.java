@@ -49,7 +49,6 @@ public class ModuleActivity extends AppCompatActivity {
 
         // saveLokaalBeschrijving("idepa","idepajemoeder beschrijving epic");
         // loadLokaleBeschrijving("idepa");
-//
 
         TextView moduleNaam = (TextView) findViewById(R.id.tvmodule);
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
@@ -67,8 +66,6 @@ public class ModuleActivity extends AppCompatActivity {
             mnaam = extras.getString("moduleNaam");
             moduleNaam.setText(mnaam);
             getSupportActionBar().setTitle("Keuzevak: "+mnaam);
-            write2API(mnaam);
-//            removeFromAPI(mnaam);
 
             if(p.internetIsConnected()){
                 fixBeschrijvingAPI(extras.getString("moduleNaam"));
@@ -83,7 +80,8 @@ public class ModuleActivity extends AppCompatActivity {
             schrijfButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    schrijfIn(mnaam);
+//                    schrijfIn(mnaam);
+                    write2API(mnaam);
                 }
             });
         }
@@ -92,7 +90,8 @@ public class ModuleActivity extends AppCompatActivity {
             schrijfButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    schrijfUit(mnaam);
+//                    schrijfUit(mnaam);
+                    removeFromAPI(mnaam);
                 }
             });
         }
@@ -136,8 +135,6 @@ public class ModuleActivity extends AppCompatActivity {
         });
         mQueue.add(request);
     }
-
-
 
     private void schrijfIn(String module){
         if(!new publiek().internetIsConnected()){
@@ -285,7 +282,7 @@ public class ModuleActivity extends AppCompatActivity {
         mQueue.add(stringRequest);
     }
     private void removeFromAPI(String mnaam){
-        String url = "http://api.mrtvda.nl/api/inschrijvingen/delete/15";
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/delete/insblau@insblau.nl/" + mnaam;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
