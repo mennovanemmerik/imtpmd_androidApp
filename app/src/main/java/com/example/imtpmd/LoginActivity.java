@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     Sensor sensor;
     public float licht;
 
-    private String ACC_FILE = "ACC_FILE.txt";
+    private String ACC_FILE = "acc_file.txt";
     ArrayList<String> arrai = new ArrayList<>();
 
 
@@ -83,8 +83,8 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                 return;
             }
 */
-
-            if ((userName.equals("")) && (userPassword.equals(""))) {
+            if (true) {
+      //      if ((userName.equals("")) && (userPassword.equals(""))) {
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     public void save(View v){
        //String text= mEditText.getText().toString();
         String text = Name.getText().toString();
-
+        Log.d("arden", "save: "+text);
         FileOutputStream fos = null;
         try{
             fos = openFileOutput(ACC_FILE,MODE_PRIVATE);

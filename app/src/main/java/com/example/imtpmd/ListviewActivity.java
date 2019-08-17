@@ -178,6 +178,7 @@ public class ListviewActivity extends AppCompatActivity {
             if(isName){
                 windowArray.add(sb.toString());
                 extras.putString("user", sb.toString());
+                Log.d("arden", "load: "+sb.toString());
             }
             else {
                 String[] ar = sb.toString().substring(1, sb.length() - 2).split(", ", 99);

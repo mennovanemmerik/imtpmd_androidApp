@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -46,8 +47,8 @@ public class ModuleActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mQueue = Volley.newRequestQueue(this);
 
-      //  saveLokaalBeschrijving("idepa","idepajemoeder beschrijving epic");
-       // loadLokaleBeschrijving("idepa");
+        // saveLokaalBeschrijving("idepa","idepajemoeder beschrijving epic");
+        // loadLokaleBeschrijving("idepa");
 
         TextView moduleNaam = (TextView) findViewById(R.id.tvmodule);
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
@@ -55,13 +56,11 @@ public class ModuleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
 
-        String user = extras.getString("user");
+        final String user = extras.getString("user");
 
 
         schrijfButton = (Button)findViewById(R.id.btnjoin);
         TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
-
-
 
         if (extras != null) {
             Log.d("YAS", "KRIJGT "+extras.getString("moduleNaam")+" MEE WTF AAAAAA");
@@ -82,7 +81,8 @@ public class ModuleActivity extends AppCompatActivity {
             schrijfButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    schrijfIn(mnaam);
+//                    schrijfIn(mnaam);
+                    write2API(mnaam,user);
                 }
             });
         }
@@ -91,22 +91,21 @@ public class ModuleActivity extends AppCompatActivity {
             schrijfButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    schrijfUit(mnaam);
+//                    schrijfUit(mnaam);
+                    removeFromAPI(mnaam,user);
                 }
             });
         }
-
     }
 
     private void schrijfUit(String module){
         TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
         moduleStatus.setText("In afwachting "+mnaam );
         schrijfButton.setEnabled(false);
-
     }
 
     public void fixBeschrijvingAPI(String module) {
-          String url = "http://api.mrtvda.nl/api/keuzevakken/"+module;
+        String url = "http://api.mrtvda.nl/api/keuzevakken/"+module;
         Log.d("APIS", "JSON voor beschrijving is aangeroepen");
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -137,8 +136,6 @@ public class ModuleActivity extends AppCompatActivity {
         });
         mQueue.add(request);
     }
-
-
 
     private void schrijfIn(String module){
         if(!new publiek().internetIsConnected()){
@@ -265,14 +262,49 @@ public class ModuleActivity extends AppCompatActivity {
         return "Er is iets fout gegaan lol //Misschien ff internet fixen?//F ";
     }
 
-    ///////////////////////////////////////////////////
-
-    private void write2API(){
+    private void write2API(String module, String user){
           //  user = user
+        Log.d("arden", "write2API: user= "+user+"  -schrijft zig in voor module "+module);
+        if(true){
+            return;
+        }
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/add/"+user+"/" + module;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("inschrijving", "gelukt!");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("inschrijving", "mislukt");
+            }
+        });
+
+        mQueue.add(stringRequest);
 
     }
-    private void removeFromAPI(){
+    private void removeFromAPI(String module, String user){
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/delete/"+user+"/" + module;
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("uitschrijving", "gelukt!");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("uitschrijving", "mislukt");
+            }
+        });
+
+        mQueue.add(stringRequest);
     }
 
 
