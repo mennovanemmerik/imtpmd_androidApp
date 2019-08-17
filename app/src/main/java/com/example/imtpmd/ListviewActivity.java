@@ -43,11 +43,11 @@ public class ListviewActivity extends AppCompatActivity {
 
     Bundle extras = new Bundle();
 
-    String ALL_MODULE_FILE ="example.txt";
+    String ALL_MODULE_FILE ="all_module_file.txt";
     String MY_MODULE_FILE ="my_module_file.txt";
 
     String ALL_API_url = "http://api.mrtvda.nl/api/keuzevakken";
-    String MY_API_url =  "http://api.mrtvda.nl/api/keuzevakken";
+    String MY_API_url =  "http://api.mrtvda.nl/api/inschrijvingen/insblau@insblau.nl";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class ListviewActivity extends AppCompatActivity {
         Log.d("e","voor if donkere lucht");
          donkermodus();
 
-
+        load("acc_file.txt");
 
 
         Log.d("commie","$$"+wlijst);
@@ -90,7 +90,7 @@ public class ListviewActivity extends AppCompatActivity {
             }
             else{
                 Log.d("API", "ELSE INTENET NIET GECONT");
-                load(ALL_MODULE_FILE,false);
+                load(ALL_MODULE_FILE);
                 opzet();
                 getSupportActionBar().setTitle("(Geen Internet) Alle modules");
             }
@@ -104,7 +104,6 @@ public class ListviewActivity extends AppCompatActivity {
             }
             else{
                 Log.d("API", "ELSE INTENET NIET GECONT");
-                load("acc_file.txt", true);
                 opzet();
                 getSupportActionBar().setTitle("(Geen Internet) Uw modules");
             }
@@ -153,7 +152,12 @@ public class ListviewActivity extends AppCompatActivity {
 
 
 
-    public void load(String CHOSEN_FILE, boolean isName){
+    public void load(String CHOSEN_FILE){
+        Boolean isName=false;
+        if(CHOSEN_FILE=="acc_file.txt"){
+            isName=true;
+        }
+
         File file = new File(getApplicationContext().getFilesDir(),CHOSEN_FILE);
         if (!file.exists()) {
             return;

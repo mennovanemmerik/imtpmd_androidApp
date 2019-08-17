@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     Sensor sensor;
     public float licht;
 
-    private String ACC_FILE = "example.txt";
+    private String ACC_FILE = "ACC_FILE.txt";
     ArrayList<String> arrai = new ArrayList<>();
 
 

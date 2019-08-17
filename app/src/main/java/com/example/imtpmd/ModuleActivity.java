@@ -55,8 +55,8 @@ public class ModuleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
 
-
         String user = extras.getString("user");
+
 
         schrijfButton = (Button)findViewById(R.id.btnjoin);
         TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
@@ -269,12 +269,11 @@ public class ModuleActivity extends AppCompatActivity {
 
     private void write2API(){
           //  user = user
+
     }
     private void removeFromAPI(){
 
     }
 
-    private void getDescriptionFromAPI(){
 
-    }
 }
