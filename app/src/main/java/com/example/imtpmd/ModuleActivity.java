@@ -265,9 +265,7 @@ public class ModuleActivity extends AppCompatActivity {
     private void write2API(String module, String user){
           //  user = user
         Log.d("arden", "write2API: user= "+user+"  -schrijft zig in voor module "+module);
-        if(true){
-            return;
-        }
+
         String url = "http://api.mrtvda.nl/api/inschrijvingen/add/"+user+"/" + module;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
