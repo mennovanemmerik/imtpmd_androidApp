@@ -18,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -182,7 +183,7 @@ public class ListviewActivity extends AppCompatActivity {
 
 
             if(isName){
-                windowArray.add(sb.toString());
+//                windowArray.add(sb.toString());
                 extras.putString("user", sb.toString());
                 //Log.d("tussenvadertext", "this.user word nu: "+sb.toString().toLowerCase());
                 this.user = sb.toString().toLowerCase();
@@ -219,61 +220,55 @@ public class ListviewActivity extends AppCompatActivity {
     }
 
     public void getMyModulesAPI(String user) {
-        if(true){
-            return;
-            //##
-        }
-        //Deze functie werkt niet omdat ik niet weet hoe het eruit zou zien
+        Log.d("getMyModules", user);
+        String url = "http://api.mrtvda.nl/api/inschrijvingen/" + user;
 
-        Log.d("myapi", "getMyModulesAPI: met user "+user);
-        String url = "http://api.mrtvda.nl/api/inschrijvingen/"+user;
-        Log.d("myapi", "getMy module API");
-        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("myapi", "yas");
                 JSONArray jsonArray = null;
 
                 try {
-                    Log.d("myapi", "onResponse: wait1s");
-                    jsonArray = response.names();
+                    Log.d("APIjson", "onResponse: wait1s");
+                    jsonArray = response.getJSONArray("inschrijvingen");
+
+                    Log.d("APIjson", "onResponse: "+jsonArray);
+
+                    Log.d("getMyModules", "dit werkt");
 
 
-                    Log.d("myapi", "onResponse: "+jsonArray);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject keuzevak = jsonArray.getJSONObject(i);
 
+                        String user = keuzevak.getString("keuzevak");
 
-                    windowArray.clear();
-                    for (int i = 0; i < jsonArray.length(); i++) { //for keuzevak bij user
-                        JSONObject keuzevakken = jsonArray.getJSONObject(i);
-
-                      //  String keuzevak = //;
-
-                        //windowArray.add(keuzevak);
-                      //  Log.d("myapi", "jsonParser: jajaja "+keuzevak);
+                        windowArray.add(user);
+                        Log.d("API", "jsonParser: jajaja "+ user);
                         //    Log.d("API", "jsonParser: nenee "+windowArray);
                     }
                     save();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.d("getMyModules", "dit werkt2");
                 }finally {
                     opzet();
 
-                    Log.d("myapi", "wat: ");
+                    Log.d("jsonAPI", "wat: ");
                     return;
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("myapi", "Er is iets fout gegaan" +error);
+                Log.d("getMyModules", "Er is iets fout gegaan");
                 error.printStackTrace();
             }
         });
 
-        mQueue.add(request2);
+        mQueue.add(request);
 
     }
+
     public void getAllModulesAPI(String url) {
       //  String url = "http://api.mrtvda.nl/api/inschrijvingen/insblau@insblau.nl";
         Log.d("API", "jsonParser: GET ALL MODULES API AANGEROEPEN");
@@ -350,6 +345,4 @@ public class ListviewActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
