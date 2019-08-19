@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                             localSavedUsers.add(gebruikers.getString("name"));
                         }
 
-                        if(user.toLowerCase().equals(gebruikers.getString("name").toLowerCase()) ){
+                        if(user.toLowerCase().equals(gebruikers.getString("name").toLowerCase()) && password.equals(gebruikers.getString("password")) ){
                             klopt = true;
                         }
                     }
@@ -169,7 +169,8 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
 
     private void modus(String mode){
-        mode = "licht";
+        Log.d("donker", "modus: aangeroepen in login "+mode);
+        //mode = "licht";
         if(mode == "donker"){
             this.getWindow().getDecorView().setBackgroundResource(R.color.colorPrimaryDark);
             Info.setTextColor(Color.WHITE);
@@ -281,7 +282,7 @@ return false;
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT){
-
+            Log.d("donke", "onSensorChanged: "+sensorEvent.values[0]+" / "+licht);
             licht = sensorEvent.values[0];
          //   mEditText.setText(""+licht);
         }
@@ -293,11 +294,14 @@ return false;
     }
 
     public boolean isDonker(){
-        int wanneerDonker = 3;
+        Log.d("donker", "isDonker: aangeroepen in login, licht is "+licht);
+        int wanneerDonker = 1;
         if(licht<wanneerDonker){
+            Log.d("donker", "isDonker: return true");
             return true;
         }
         else{
+            Log.d("donker", "isDonker: return false ");
             return false;
         }
     }
