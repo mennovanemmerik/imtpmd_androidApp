@@ -36,7 +36,7 @@ public class ModuleActivity extends AppCompatActivity {
     String mnaam;
     publiek p = new publiek();
     private RequestQueue mQueue;
-
+    String MY_MODULE_FILE ="_module_file.txt";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -57,7 +57,10 @@ public class ModuleActivity extends AppCompatActivity {
         String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
 
         final String user = extras.getString("user");
+        MY_MODULE_FILE = user+MY_MODULE_FILE;
+        Log.d("eindpa", "onCreate: "+MY_MODULE_FILE);
 
+        boolean isLokaalIngeschrevenString = isLokaalIngeschreven(mnaam);
 
         schrijfButton = (Button)findViewById(R.id.btnjoin);
         TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
@@ -76,26 +79,30 @@ public class ModuleActivity extends AppCompatActivity {
             }
         }
 
-        Log.d("YAS", "tot P");
-        if(isLokaalIngeschreven(mnaam) == false){        //ALS JE NIET BENT INGESCHREVEN DAN STAAT KLIKKEN GLIJK AAN INSCHRIJVEN
-            schrijfButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    schrijfIn(mnaam);
-                    write2API(mnaam,user);
+        if(extras.getBoolean("geupdate")){
+        schrijfButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(isLokaalIngeschreven(mnaam) == false){        //ALS JE NIET BENT INGESCHREVEN DAN STAAT KLIKKEN GLIJK AAN INSCHRIJVEN
+                    //                    schrijfIn(mnaam);
+                    //      write2API(mnaam,user);
+                    schrijfButton.setText("Schrijf uit");
                 }
-            });
-        }
-        else {
+                else {
+                   // schrijfButton.setEnabled(false);
+                 //   schrijfUit(mnaam);
+                    schrijfButton.setText("Schrijf in");
+                }
+            }
+        });}
+        else{
+            schrijfButton.setText("U heeft internet nodig om u in/uit te schrijven");
             schrijfButton.setEnabled(false);
-            schrijfButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    schrijfUit(mnaam);
-                    removeFromAPI(mnaam,user);
-                }
-            });
         }
+        Log.d("YAS", "tot P");
+
+
     }
 
     private void schrijfUit(String module){
@@ -304,6 +311,17 @@ public class ModuleActivity extends AppCompatActivity {
 
         mQueue.add(stringRequest);
     }
+
+
+    public void removeFromLokaal(){
+        String module =mnaam;
+        if(isLokaalIngeschreven(module)==false){
+                return;
+        }
+
+
+    }
+
 
 
 }

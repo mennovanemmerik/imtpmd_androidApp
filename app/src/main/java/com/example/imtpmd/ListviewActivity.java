@@ -62,11 +62,19 @@ public class ListviewActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         wlijst = extras.getString("welkeLijst");
+        extras.putBoolean("geupdate",false);
 
-        MY_MODULE_FILE = extras.getString("user")+MY_MODULE_FILE;
+
+        Log.d("vader", "onCreate:appelpen = "+MY_MODULE_FILE);
         donkermodus();
 
         load("acc_file.txt"); //User word ff ingeladen
+        Log.d("vader", "onCreate:user= "+user);
+        Log.d("vader", "onCreate:file="+MY_MODULE_FILE);
+        Log.d("appelpen",  user.toString()+"x"+MY_MODULE_FILE.toString());
+
+        MY_MODULE_FILE = user+MY_MODULE_FILE;
+        Log.d("appelpen", MY_MODULE_FILE);
 
         //windowArray.add("eerste add in listviewac");
         //windowArray.add("DEZE IS NIET GESCHREIBEN");
@@ -81,7 +89,7 @@ public class ListviewActivity extends AppCompatActivity {
 
             }
             else{
-                Log.d("API", "ELSE INTENET NIET GECONT");
+                Log.d("API", "geen internet in alllijst = "+ALL_MODULE_FILE);
                 load(ALL_MODULE_FILE);
                 opzet();
                 getSupportActionBar().setTitle("(Geen Internet) Alle modules");
@@ -95,8 +103,8 @@ public class ListviewActivity extends AppCompatActivity {
 
             }
             else{
+                Log.d("API", "geen internet in mijnlijst = "+MY_MODULE_FILE);
                 load(MY_MODULE_FILE);
-                Log.d("API", "ELSE INTENET NIET GECONT");
                 opzet();
                 getSupportActionBar().setTitle("(Geen Internet) Uw modules");
             }
@@ -112,11 +120,12 @@ public class ListviewActivity extends AppCompatActivity {
         Log.d("API", "save: aangeroepen ");
         //String text= mEditText.getText().toString();
         String file;
-        if(wlijst=="allesLijst"){
+        if(wlijst.equals("allesLijst")){
              file = ALL_MODULE_FILE;
             Log.d("save", "wLIJST IS ALLESLIJST");
         }
         else{
+            Log.d("ja", wlijst+" file is mijnfile in de else = "+MY_MODULE_FILE);
              file = MY_MODULE_FILE;
         }
 
@@ -124,10 +133,12 @@ public class ListviewActivity extends AppCompatActivity {
        // Log.d("save", "!IMPORTANT SAVE "+text);
         FileOutputStream fos = null;
         try{
-            fos = openFileOutput(file,MODE_PRIVATE);
-            fos.write(text.getBytes());
-
-            Toast.makeText(this,"saved to "+getFilesDir()+file,Toast.LENGTH_LONG).show();
+            if(p.internetIsConnected()) {
+                fos = openFileOutput(file, MODE_PRIVATE);
+                fos.write(text.getBytes());
+                extras.putBoolean("geupdate", true);
+                Toast.makeText(this, "saved to " + getFilesDir() + file, Toast.LENGTH_LONG).show();
+            }
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch (IOException e){
@@ -146,13 +157,15 @@ public class ListviewActivity extends AppCompatActivity {
 
 
     public void load(String CHOSEN_FILE){
+        Log.d("vaderload", "load: aangeroepen");
         Boolean isName=false;
-        if(CHOSEN_FILE=="acc_file.txt"){
+        if(CHOSEN_FILE.equals("acc_file.txt")){
             isName=true;
         }
 
         File file = new File(getApplicationContext().getFilesDir(),CHOSEN_FILE);
         if (!file.exists()) {
+            Log.d("vaderload", "file bestaat niet: "+CHOSEN_FILE);
             return;
         }
         FileInputStream fis = null;
@@ -162,7 +175,7 @@ public class ListviewActivity extends AppCompatActivity {
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
             String text;
-            Log.d("API", "WHILE  DOES WELL EXIST");
+            Log.d("vaderload", "WHILE  DOES WELL EXIST");
             while ((text = br.readLine()) != null) {
                 sb.append(text).append("\n");
             }
@@ -171,13 +184,14 @@ public class ListviewActivity extends AppCompatActivity {
             if(isName){
                 windowArray.add(sb.toString());
                 extras.putString("user", sb.toString());
-                user = sb.toString();
-                Log.d("arden", "load: "+sb.toString());
+                //Log.d("tussenvadertext", "this.user word nu: "+sb.toString().toLowerCase());
+                this.user = sb.toString().toLowerCase();
+                Log.d("vaderload", "load: "+sb.toString());
             }
             else {
                 String[] ar = sb.toString().substring(1, sb.length() - 2).split(", ", 99);
                 for (int i = 0; i < ar.length; i++) {
-                    Log.d("load", "ADD LOAD " + ar[i]);
+                    Log.d("vaderload", "ADD LOAD " + ar[i]);
                     windowArray.add(ar[i]);
 
                 }
@@ -262,7 +276,7 @@ public class ListviewActivity extends AppCompatActivity {
     }
     public void getAllModulesAPI(String url) {
       //  String url = "http://api.mrtvda.nl/api/inschrijvingen/insblau@insblau.nl";
-        Log.d("API", "jsonParser: aangeroepen2");
+        Log.d("API", "jsonParser: GET ALL MODULES API AANGEROEPEN");
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -326,6 +340,7 @@ public class ListviewActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ListviewActivity.this, ModuleActivity.class);
                 extras.putString("moduleNaam", windowArray.get(position));
+
 
 
                 intent.putExtras(extras);

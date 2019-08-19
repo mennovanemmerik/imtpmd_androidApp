@@ -40,7 +40,7 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements SensorEventListener {
     private EditText Name;
-
+    publiek p =new publiek();
     private EditText Password;
     private TextView Info;
     private Button Login;
@@ -50,9 +50,9 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     SensorManager sensorManager;
     Sensor sensor;
     public float licht;
-
+    public String LOCAL_USERS_FILE = "local_users_file.txt";
     private String ACC_FILE = "acc_file.txt";
-    ArrayList<String> arrai = new ArrayList<>();
+    ArrayList<String> localSavedUsers = new ArrayList<>();
 
 
 
@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         setContentView(R.layout.activity_login);
         mEditText = findViewById(R.id.edit_text);
         mQueue = Volley.newRequestQueue(this);
-
+        Log.d("vader", "APP GESTART");
          sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
          sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
@@ -72,10 +72,13 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         Password = (EditText)findViewById(R.id.etPassword);
         Info = (TextView)findViewById(R.id.tvInfo);
         Login = (Button)findViewById(R.id.btnLogin);
+
+
+
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate_userInAPI(Name.getText().toString(),Password.getText().toString());
+                validate_userLocalOrAPI(Name.getText().toString(),Password.getText().toString());
             }
         });
         if(isDonker()){
@@ -86,9 +89,14 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    public void validate_userInAPI(final String user, final String password){
+    public void validate_userLocalOrAPI(final String user, final String password){
+        if(p.internetIsConnected()==false ){
+           magDoor(isUserDanWelLokaal());
 
-         String url = "http://api.mrtvda.nl/api/gebruikers";
+           return;
+        }
+
+        String url = "http://api.mrtvda.nl/api/gebruikers";
         Log.d("API", "jsonParser: aangeroepen2");
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -96,46 +104,34 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                 JSONArray jsonArray = null;
 
                 try {
-                    Log.d("APIjson", "onResponse: wait1s");
+                    Log.d("yas", "onResponse: wait1s");
                     jsonArray = response.getJSONArray("gebruikers");
 
-
-
-                    boolean done = false;
+                    boolean klopt = false;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject gebruikers = jsonArray.getJSONObject(i);
-                        Log.d("API", user+" vs "+gebruikers.getString("name"));
-                        if(user.toLowerCase().equals(gebruikers.getString("name").toLowerCase())){
-                            done = true;
-                            Log.d("logAPI", "onResponse: TRUE IS IN API ");
-                            //      if ((userName.equals("")) && (userPassword.equals(""))) {
-
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-
+                        Log.d("yas", user+" vs "+gebruikers.getString("name"));
+                        if(localSavedUsers.contains(gebruikers.getString("name"))==false){
+                            Log.d("yas", "add "+gebruikers.getString("name"));
+                            localSavedUsers.add(gebruikers.getString("name"));
                         }
 
+                        if(user.toLowerCase().equals(gebruikers.getString("name").toLowerCase()) ){
+                            klopt = true;
+                        }
                     }
-                    if(done==false) {
-                        Log.d("logAPI", "onResponse: FALSE IS NOTNOT IN API ");
-                        counter--;
-                        Info.setText("No of attempts remaining " + String.valueOf(counter));
-                        if (counter <= 0)
-                            Login.setEnabled(false);
-
-
-
-                        //    Log.d("API", "jsonParser: nenee "+windowArray);
+                    if(klopt==true){
+                        save2file(localSavedUsers.toString());
+                        magDoor(true);
                     }
-
-
+                    if(klopt==false) {
+                        save2file(localSavedUsers.toString());
+                        magDoor(false);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }finally {
-
-
-
                     return;
                 }
             }
@@ -147,10 +143,26 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                 error.printStackTrace();
             }
         });
-
         mQueue.add(request);
+    }
 
+    public void magDoor(boolean magDoor){
+        if(magDoor){
+            Log.d("logAPI", "onResponse: TRUE IS IN API ");
+            //      if ((userName.equals("")) && (userPassword.equals(""))) {
+            save2file(Name.getText().toString());
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        else{
 
+            Log.d("logAPI", "onResponse: FALSE IS NOTNOT IN API ");
+            counter--;
+            Info.setText("No of attempts remaining " + String.valueOf(counter));
+            if (counter <= 0)
+                Login.setEnabled(false);
+            //    Log.d("API", "jsonParser: nenee "+windowArray);
+        }
     }
 
 
@@ -167,16 +179,33 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    public void save(View v){
+    public void save2file(String wat){
+
+        Log.d("yas", "save2file: aangeroepen met "+wat);
+        String gekozen_file ="lol niks";
+        if(wat.equals(localSavedUsers.toString())){
+            Log.d("vaderlog", "wat in inlog = NIET NAAM MAAR: "+wat);
+            gekozen_file = LOCAL_USERS_FILE;
+            if(p.internetIsConnected()==false){
+            //    Toast.makeText(this,"saved to "+getFilesDir()+gekozen_file,Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        else if(wat.equals(Name.getText().toString())){
+            Log.d("vaderlog", "wat in inlog = confirmed naam: "+wat+" of ");
+            gekozen_file = ACC_FILE;
+        };
+        Log.d("yas", "save2file: file = "+gekozen_file);
        //String text= mEditText.getText().toString();
         String text = Name.getText().toString().toLowerCase();
-        Log.d("arden", "save: "+text);
+        Log.d("yas", "save: "+text);
         FileOutputStream fos = null;
         try{
-            fos = openFileOutput(ACC_FILE,MODE_PRIVATE);
-            fos.write(text.getBytes());
+            fos = openFileOutput(gekozen_file,MODE_PRIVATE);
+        //    fos.write(text.getBytes());
+            fos.write(wat.toString().getBytes());
             mEditText.getText().clear();
-            Toast.makeText(this,"saved to "+getFilesDir()+ACC_FILE,Toast.LENGTH_LONG).show();
+          //  Toast.makeText(this,"saved to "+getFilesDir()+gekozen_file,Toast.LENGTH_LONG).show();
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch (IOException e){
@@ -191,27 +220,39 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
             }
         }
     }
- public void load(View v) {
-
-     File file = new File(getApplicationContext().getFilesDir(),ACC_FILE);
+ public boolean isUserDanWelLokaal() {
+     Log.d("YAS", "isUserDanWelLokaal: aangeroepen");
+     File file = new File(getApplicationContext().getFilesDir(), LOCAL_USERS_FILE);
      if (!file.exists()) {
-         return;
+         Toast.makeText(this,"Geen internet of Eerdere opslag gevonden",Toast.LENGTH_LONG).show();
+         return false;
      }
      FileInputStream fis = null;
 
      try {
-         fis = openFileInput(ACC_FILE);
+         fis = openFileInput(LOCAL_USERS_FILE);
          InputStreamReader isr = new InputStreamReader(fis);
          BufferedReader br = new BufferedReader(isr);
          StringBuilder sb = new StringBuilder();
          String text;
-
+         String poginNaam = Name.getText().toString();
          while ((text = br.readLine()) != null) {
              sb.append(text).append("\n");
          }
-         Log.d("load", "NU MOET HET GLEOAD WORDNE");
-         mEditText.setText(sb.toString());
 
+         String[] ar = sb.toString().substring(1, sb.length() - 2).split(", ", 99);
+         Log.d("YAS", "forloop isuserdanwel lokaal begint met "+ar +" met "+ +ar.length);
+         for (int i = 0; i < ar.length; i++) {
+             Log.d("YAS", "ADD LOAD " + ar[i].toString().toLowerCase() + " vs " + poginNaam.toLowerCase());
+
+             if (ar[i].toLowerCase().equals(poginNaam.toLowerCase())) {
+                 Log.d("YAS", "return TRUE");
+                 return true;
+             }
+
+         }
+         Log.d("YAS", "return FALSE");
+         return false;
      } catch (FileNotFoundException e) {
          e.printStackTrace();
      } catch (IOException e) {
@@ -223,7 +264,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
              e.printStackTrace();
          }
      }
-
+return false;
  }
 
 
