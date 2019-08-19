@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtras(extras);
         startActivity(intent);
     }
+    public void naarLogin(View v) {
+        Log.d("note", "naarLogin aangeroepen");
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+        startActivity(intent);
+    }
 
     private void donkermodus(){
          LoginActivity login = new LoginActivity();
