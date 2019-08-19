@@ -110,13 +110,13 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                     boolean klopt = false;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject gebruikers = jsonArray.getJSONObject(i);
-                        Log.d("yas", user+" vs "+gebruikers.getString("name"));
-                        if(localSavedUsers.contains(gebruikers.getString("name"))==false){
+                        Log.d("yas", user+" vs "+gebruikers.getString("email"));
+                        if(localSavedUsers.contains(gebruikers.getString("email"))==false){
                             Log.d("yas", "add "+gebruikers.getString("name"));
-                            localSavedUsers.add(gebruikers.getString("name"));
+                            localSavedUsers.add(gebruikers.getString("email"));
                         }
 
-                        if(user.toLowerCase().equals(gebruikers.getString("name").toLowerCase()) ){
+                        if(user.toLowerCase().equals(gebruikers.getString("email").toLowerCase()) ){
                             klopt = true;
                         }
                     }
@@ -220,6 +220,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
             }
         }
     }
+
  public boolean isUserDanWelLokaal() {
      Log.d("YAS", "isUserDanWelLokaal: aangeroepen");
      File file = new File(getApplicationContext().getFilesDir(), LOCAL_USERS_FILE);
