@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                         }
 
 
-                        if(user.toLowerCase().equals(gebruikers.getString("name").toLowerCase()) && password.equals(gebruikers.getString("password")) ){
+                        if(user.toLowerCase().equals(gebruikers.getString("email").toLowerCase()) && password.equals(gebruikers.getString("password")) ){
 
                             klopt = true;
                         }
