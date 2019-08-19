@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mEditText = findViewById(R.id.edit_text);
+
         mQueue = Volley.newRequestQueue(this);
         Log.d("vader", "APP GESTART");
          sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
             fos = openFileOutput(gekozen_file,MODE_PRIVATE);
         //    fos.write(text.getBytes());
             fos.write(wat.toString().getBytes());
-            mEditText.getText().clear();
+      //      mEditText.getText().clear();
           //  Toast.makeText(this,"saved to "+getFilesDir()+gekozen_file,Toast.LENGTH_LONG).show();
         }catch(FileNotFoundException e){
             e.printStackTrace();

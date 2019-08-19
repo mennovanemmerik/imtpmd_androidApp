@@ -56,11 +56,13 @@ public class ModuleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
 
+
+        Log.d("eindpa", "tothier:2 ");
         final String user = extras.getString("user");
         MY_MODULE_FILE = user+MY_MODULE_FILE;
         Log.d("eindpa", "onCreate: "+MY_MODULE_FILE);
 
-        boolean isLokaalIngeschrevenString = isLokaalIngeschreven(mnaam);
+      //  boolean isLokaalIngeschrevenString = isLokaalIngeschreven(mnaam);
 
         schrijfButton = (Button)findViewById(R.id.btnjoin);
         TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
@@ -78,22 +80,32 @@ public class ModuleActivity extends AppCompatActivity {
                 loadLokaleBeschrijving(extras.getString("moduleNaam"));
             }
         }
+        if(isLokaalIngeschreven(mnaam) == false){
+            schrijfButton.setText("Schrijf in");
+        }
+        else {
+            schrijfButton.setText("Schrijf uit");
+        }
 
         if(extras.getBoolean("geupdate")){
         schrijfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(ModuleActivity.this, MainActivity.class);
                 if(isLokaalIngeschreven(mnaam) == false){        //ALS JE NIET BENT INGESCHREVEN DAN STAAT KLIKKEN GLIJK AAN INSCHRIJVEN
                     //                    schrijfIn(mnaam);
-                    //      write2API(mnaam,user);
+                          write2API(mnaam,user);
+
                     schrijfButton.setText("Schrijf uit");
                 }
                 else {
                    // schrijfButton.setEnabled(false);
                  //   schrijfUit(mnaam);
+                    removeFromAPI(mnaam,user);
+
                     schrijfButton.setText("Schrijf in");
                 }
+                startActivity(intent);
             }
         });}
         else{
@@ -103,12 +115,6 @@ public class ModuleActivity extends AppCompatActivity {
         Log.d("YAS", "tot P");
 
 
-    }
-
-    private void schrijfUit(String module){
-        TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
-        moduleStatus.setText("In afwachting "+mnaam );
-        schrijfButton.setEnabled(false);
     }
 
     public void fixBeschrijvingAPI(String module) {
@@ -144,6 +150,14 @@ public class ModuleActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+/*
+    private void schrijfUit(String module){
+        TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
+        moduleStatus.setText("In afwachting "+mnaam );
+        schrijfButton.setEnabled(false);
+    }
+
+
     private void schrijfIn(String module){
         if(!new publiek().internetIsConnected()){
             Toast.makeText(getApplicationContext(), "404 NO INTERNET, try again later", Toast.LENGTH_LONG).show();
@@ -153,7 +167,7 @@ public class ModuleActivity extends AppCompatActivity {
         moduleStatus.setText("In afwachting "+mnaam );
         schrijfButton.setEnabled(false);
     };
-
+*/
     public boolean isLokaalIngeschreven(String module){
         Log.d("YAS", "ISLOKAAL INGESCHREVEN WORD AANGEROEPEN met "+module);
         String CHOSEN_FILE = "example.txt";
@@ -313,14 +327,6 @@ public class ModuleActivity extends AppCompatActivity {
     }
 
 
-    public void removeFromLokaal(){
-        String module =mnaam;
-        if(isLokaalIngeschreven(module)==false){
-                return;
-        }
-
-
-    }
 
 
 
