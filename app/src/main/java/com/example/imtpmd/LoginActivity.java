@@ -51,8 +51,10 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     Sensor sensor;
     public float licht;
     public String LOCAL_USERS_FILE = "local_users_file.txt";
-    private String ACC_FILE = "acc_file.txt";
+    public String LOCAL_PASSWORDS_FILE = "local_passwords_file.txt";
+    public String ACC_FILE = "acc_file.txt";
     ArrayList<String> localSavedUsers = new ArrayList<>();
+    ArrayList<String> localSavedPasswords = new ArrayList<>();
 
 
 
@@ -91,8 +93,12 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
     public void validate_userLocalOrAPI(final String user, final String password){
         if(p.internetIsConnected()==false ){
-           magDoor(isUserDanWelLokaal());
-
+           if( isDanWelLokaal("user") && isDanWelLokaal("password")) {
+               magDoor(true);
+           }
+           else{
+               magDoor(false);
+           }
            return;
         }
 
@@ -114,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                         if(localSavedUsers.contains(gebruikers.getString("email"))==false){
                             Log.d("yas", "add "+gebruikers.getString("name"));
                             localSavedUsers.add(gebruikers.getString("email"));
+                            localSavedPasswords.add("#"+gebruikers.getString("password")+"*"+gebruikers.getString("email")+"#");
                         }
 
 
@@ -122,12 +129,14 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                             klopt = true;
                         }
                     }
-                    if(klopt==true){
+                    if(p.internetIsConnected()){
                         save2file(localSavedUsers.toString());
+                        save2file(localSavedPasswords.toString());
+                    }
+                    if(klopt==true){
                         magDoor(true);
                     }
                     if(klopt==false) {
-                        save2file(localSavedUsers.toString());
                         magDoor(false);
                     }
 
@@ -185,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     public void save2file(String wat){
 
         Log.d("yas", "save2file: aangeroepen met "+wat);
-        String gekozen_file ="lol niks";
+        String gekozen_file ="";
         if(wat.equals(localSavedUsers.toString())){
             Log.d("vaderlog", "wat in inlog = NIET NAAM MAAR: "+wat);
             gekozen_file = LOCAL_USERS_FILE;
@@ -194,10 +203,18 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                 return;
             }
         }
+         else if(wat.equals(localSavedPasswords.toString())){
+            if(p.internetIsConnected()==false){
+                //    Toast.makeText(this,"saved to "+getFilesDir()+gekozen_file,Toast.LENGTH_LONG).show();
+                return;
+            }
+            Log.d("vaderlog", "wat in inlog = confirmed naam: "+wat+" of ");
+            gekozen_file = LOCAL_PASSWORDS_FILE;
+        }
         else if(wat.equals(Name.getText().toString())){
             Log.d("vaderlog", "wat in inlog = confirmed naam: "+wat+" of ");
             gekozen_file = ACC_FILE;
-        };
+        }
         Log.d("yas", "save2file: file = "+gekozen_file);
        //String text= mEditText.getText().toString();
         String text = Name.getText().toString().toLowerCase();
@@ -224,7 +241,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
- public boolean isUserDanWelLokaal() {
+ public boolean isDanWelLokaal(String watLokaal) {
      Log.d("YAS", "isUserDanWelLokaal: aangeroepen");
      File file = new File(getApplicationContext().getFilesDir(), LOCAL_USERS_FILE);
      if (!file.exists()) {
@@ -232,14 +249,25 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
          return false;
      }
      FileInputStream fis = null;
+     String gekozenFile="";
+     String poginNaam = "";
+     if(watLokaal.equals("user")){
+         gekozenFile = LOCAL_USERS_FILE;
+         poginNaam = Name.getText().toString();
+     }
+     else if(watLokaal.equals("password")){
+         gekozenFile=LOCAL_PASSWORDS_FILE;
+         poginNaam = "#"+Password.getText().toString() + "*" + Name.getText() +"#";
+     }
 
      try {
-         fis = openFileInput(LOCAL_USERS_FILE);
+         fis = openFileInput(gekozenFile);
          InputStreamReader isr = new InputStreamReader(fis);
          BufferedReader br = new BufferedReader(isr);
          StringBuilder sb = new StringBuilder();
          String text;
-         String poginNaam = Name.getText().toString();
+
+
          while ((text = br.readLine()) != null) {
              sb.append(text).append("\n");
          }
