@@ -170,7 +170,7 @@ public class ModuleActivity extends AppCompatActivity {
 */
     public boolean isLokaalIngeschreven(String module){
         Log.d("YAS", "ISLOKAAL INGESCHREVEN WORD AANGEROEPEN met "+module);
-        String CHOSEN_FILE = "example.txt";
+        String CHOSEN_FILE = MY_MODULE_FILE;
 
         Log.d("API", "INGESCHREVEN met "+CHOSEN_FILE);
 

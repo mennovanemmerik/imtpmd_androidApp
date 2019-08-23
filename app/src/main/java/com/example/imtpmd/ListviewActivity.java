@@ -138,7 +138,7 @@ public class ListviewActivity extends AppCompatActivity {
                 fos = openFileOutput(file, MODE_PRIVATE);
                 fos.write(text.getBytes());
                 extras.putBoolean("geupdate", true);
-                Toast.makeText(this, "saved to " + getFilesDir() + file, Toast.LENGTH_LONG).show();
+        //        Toast.makeText(this, "saved to " + getFilesDir() + file, Toast.LENGTH_LONG).show();
             }
         }catch(FileNotFoundException e){
             e.printStackTrace();
@@ -331,7 +331,7 @@ public class ListviewActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 Log.d("YAS", "je hebt geklukt op: ");
-                Toast.makeText(ListviewActivity.this, windowArray.get(position),Toast.LENGTH_SHORT).show();
+         //       Toast.makeText(ListviewActivity.this, windowArray.get(position),Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ListviewActivity.this, ModuleActivity.class);
                 extras.putString("moduleNaam", windowArray.get(position));
