@@ -116,9 +116,9 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
                     boolean klopt = false;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject gebruikers = jsonArray.getJSONObject(i);
-                        Log.d("yas", user+" vs "+gebruikers.getString("email"));
+
                         if(localSavedUsers.contains(gebruikers.getString("email"))==false){
-                            Log.d("yas", "add "+gebruikers.getString("name"));
+
                             localSavedUsers.add(gebruikers.getString("email"));
                             localSavedPasswords.add("#"+gebruikers.getString("password")+"*"+gebruikers.getString("email")+"#");
                         }
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
 
     public void magDoor(boolean magDoor){
         if(magDoor){
-            Log.d("logAPI", "onResponse: TRUE IS IN API ");
+
             //      if ((userName.equals("")) && (userPassword.equals(""))) {
             save2file(Name.getText().toString());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -167,12 +167,12 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
         }
         else{
 
-            Log.d("logAPI", "onResponse: FALSE IS NOTNOT IN API ");
+
             counter--;
             Info.setText("No of attempts remaining: " + String.valueOf(counter));
             if (counter <= 0)
                 Login.setEnabled(false);
-            //    Log.d("API", "jsonParser: nenee "+windowArray);
+
         }
     }
 
@@ -193,10 +193,9 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
 
     public void save2file(String wat){
 
-        Log.d("yas", "save2file: aangeroepen met "+wat);
         String gekozen_file ="";
         if(wat.equals(localSavedUsers.toString())){
-            Log.d("vaderlog", "wat in inlog = NIET NAAM MAAR: "+wat);
+
             gekozen_file = LOCAL_USERS_FILE;
             if(p.internetIsConnected()==false){
             //    Toast.makeText(this,"saved to "+getFilesDir()+gekozen_file,Toast.LENGTH_LONG).show();
@@ -208,17 +207,17 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
                 //    Toast.makeText(this,"saved to "+getFilesDir()+gekozen_file,Toast.LENGTH_LONG).show();
                 return;
             }
-            Log.d("vaderlog", "wat in inlog = confirmed naam: "+wat+" of ");
+
             gekozen_file = LOCAL_PASSWORDS_FILE;
         }
         else if(wat.equals(Name.getText().toString())){
-            Log.d("vaderlog", "wat in inlog = confirmed naam: "+wat+" of ");
+
             gekozen_file = ACC_FILE;
         }
-        Log.d("yas", "save2file: file = "+gekozen_file);
+
        //String text= mEditText.getText().toString();
         String text = Name.getText().toString().toLowerCase();
-        Log.d("yas", "save: "+text);
+
         FileOutputStream fos = null;
         try{
             fos = openFileOutput(gekozen_file,MODE_PRIVATE);
@@ -242,7 +241,7 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
     }
 
  public boolean isDanWelLokaal(String watLokaal) {
-     Log.d("YAS", "isUserDanWelLokaal: aangeroepen");
+
      File file = new File(getApplicationContext().getFilesDir(), LOCAL_USERS_FILE);
      if (!file.exists()) {
          Toast.makeText(this,"Geen internet of Eerdere opslag gevonden",Toast.LENGTH_LONG).show();
@@ -273,17 +272,14 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
          }
 
          String[] ar = sb.toString().substring(1, sb.length() - 2).split(", ", 99);
-         Log.d("YAS", "forloop isuserdanwel lokaal begint met "+ar +" met "+ +ar.length);
-         for (int i = 0; i < ar.length; i++) {
-             Log.d("YAS", "ADD LOAD " + ar[i].toString().toLowerCase() + " vs " + poginNaam.toLowerCase());
 
+         for (int i = 0; i < ar.length; i++) {
              if (ar[i].toLowerCase().equals(poginNaam.toLowerCase())) {
-                 Log.d("YAS", "return TRUE");
                  return true;
              }
 
          }
-         Log.d("YAS", "return FALSE");
+
          return false;
      } catch (FileNotFoundException e) {
          e.printStackTrace();

@@ -40,7 +40,7 @@ public class ModuleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.d("YAS", "onCreate: MODULEACTIVITY AANGEROEPEN");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module);
 
@@ -57,10 +57,10 @@ public class ModuleActivity extends AppCompatActivity {
         String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
 
 
-        Log.d("eindpa", "tothier:2 ");
+
         final String user = extras.getString("user");
         MY_MODULE_FILE = user+MY_MODULE_FILE;
-        Log.d("eindpa", "onCreate: "+MY_MODULE_FILE);
+
 
       //  boolean isLokaalIngeschrevenString = isLokaalIngeschreven(mnaam);
 
@@ -68,7 +68,7 @@ public class ModuleActivity extends AppCompatActivity {
         TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
 
         if (extras != null) {
-            Log.d("YAS", "KRIJGT "+extras.getString("moduleNaam")+" MEE WTF AAAAAA");
+
             mnaam = extras.getString("moduleNaam");
             moduleNaam.setText(mnaam);
             getSupportActionBar().setTitle("Keuzevak: "+mnaam);
@@ -112,14 +112,14 @@ public class ModuleActivity extends AppCompatActivity {
             schrijfButton.setText("U heeft internet nodig om u in/uit te schrijven");
             schrijfButton.setEnabled(false);
         }
-        Log.d("YAS", "tot P");
+
 
 
     }
 
     public void fixBeschrijvingAPI(String module) {
         String url = "http://api.mrtvda.nl/api/keuzevakken/"+module;
-        Log.d("APIS", "JSON voor beschrijving is aangeroepen");
+       //De beschrijving van een module word hier aangeroepen in de API
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -130,7 +130,7 @@ public class ModuleActivity extends AppCompatActivity {
                     TextView moduleBeschrijving = (TextView) findViewById(R.id.tvbeschrijving);
                     moduleBeschrijving.setText(keuzevak);
 
-                    Log.d("APISjson", "onRespo!!!nse: "+keuzevak);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }finally {
@@ -169,10 +169,8 @@ public class ModuleActivity extends AppCompatActivity {
     };
 */
     public boolean isLokaalIngeschreven(String module){
-        Log.d("YAS", "ISLOKAAL INGESCHREVEN WORD AANGEROEPEN met "+module);
+       //Deze functie kijkt of je in je locale file(per user) de modulenaam voorkomt
         String CHOSEN_FILE = MY_MODULE_FILE;
-
-        Log.d("API", "INGESCHREVEN met "+CHOSEN_FILE);
 
 
         File file = new File(getApplicationContext().getFilesDir(),CHOSEN_FILE);
@@ -193,15 +191,11 @@ public class ModuleActivity extends AppCompatActivity {
 
             String[] ar = sb.toString().substring(1,sb.length()-2).split(", ", 99);
             for(int i=0;i<ar.length;i++){
-                Log.d("YAS", "ADD LOAD "+ar[i].toString().toLowerCase()+" vs "+module.toLowerCase());
-
                 if(ar[i].toLowerCase().equals(module.toLowerCase())){
-                    Log.d("YAS", "return TRUE");
                     return true;
                 }
 
             }
-            Log.d("YAS", "return FALSE");
             return false;
 
         }catch(FileNotFoundException e){
@@ -215,7 +209,6 @@ public class ModuleActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        Log.d("YAS", "return FALSE");
         return false;
     }
 
