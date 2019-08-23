@@ -218,7 +218,7 @@ public class ModuleActivity extends AppCompatActivity {
         try{
             fos = openFileOutput(MODULE_FILE,MODE_PRIVATE);
             fos.write(newBeschrijving.getBytes());
-            Toast.makeText(this,"saved to "+getFilesDir()+MODULE_FILE,Toast.LENGTH_LONG).show();
+       //     Toast.makeText(this,"saved to "+getFilesDir()+MODULE_FILE,Toast.LENGTH_LONG).show();
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch (IOException e){
