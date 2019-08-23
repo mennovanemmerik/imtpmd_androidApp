@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:xmlsn="http://schemas.android.com/tools"
-    android:background="@drawable/luchtdag"
+    android:background="#e7e7e7"
     android:paddingBottom="150dp"
     android:gravity="center"
     android:orientation="vertical"
@@ -23,6 +23,7 @@
       android:text="Alle modules"
       android:onClick="naarAlles"
       tools:layout_editor_absoluteX="123dp" />
+
   <Button
       android:id="@+id/btnMijn"
       android:layout_width="wrap_content"

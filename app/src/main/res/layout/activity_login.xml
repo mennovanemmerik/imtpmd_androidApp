@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".LoginActivity">
 
     <EditText
@@ -15,6 +16,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Email"
+        android:textColor="#fff"
+        android:textColorHint="#999"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +33,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Password"
+        android:textColor="#fff"
+        android:textColorHint="#999"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +85,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="No of incorrect attemps: "
+        android:textColor="#fff"
+        android:text="No of attempts remaining: 5 "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
