@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        donkermodus();
+//        donkermodus();
         getSupportActionBar().setTitle("Wat wilt u inzien?");
 
 
@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void donkermodus(){
-         LoginActivity login = new LoginActivity();
-         if( login.isDonker()){
-             LinearLayout layout = (LinearLayout) findViewById(R.id.background);
-             layout.setBackgroundResource(R.drawable.luchtnacht);
-         }
-    }
+//    private void donkermodus(){
+//         LoginActivity login = new LoginActivity();
+//         if( login.isDonker()){
+//             LinearLayout layout = (LinearLayout) findViewById(R.id.background);
+//             layout.setBackgroundResource(R.drawable.luchtnacht);
+//         }
+//    }
 
 //#// hier kan API worden opgehaald en doorgepaast en pas worden weergeven in listviewmocht het niet werken
 

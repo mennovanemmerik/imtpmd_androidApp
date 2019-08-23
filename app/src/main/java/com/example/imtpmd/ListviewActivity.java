@@ -67,7 +67,7 @@ public class ListviewActivity extends AppCompatActivity {
 
 
         Log.d("vader", "onCreate:appelpen = "+MY_MODULE_FILE);
-        donkermodus();
+//        donkermodus();
 
         load("acc_file.txt"); //User word ff ingeladen
         Log.d("vader", "onCreate:user= "+user);
@@ -211,13 +211,13 @@ public class ListviewActivity extends AppCompatActivity {
         }
 
     }
-    private void donkermodus(){
-        LoginActivity login = new LoginActivity();
-        if( login.isDonker()){
-            RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_main);
-            layout.setBackgroundResource(R.drawable.luchtnacht);
-        }
-    }
+//    private void donkermodus(){
+//        LoginActivity login = new LoginActivity();
+//        if( login.isDonker()){
+//            RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_main);
+//            layout.setBackgroundResource(R.drawable.luchtnacht);
+//        }
+//    }
 
     public void getMyModulesAPI(String user) {
         Log.d("getMyModules", user);

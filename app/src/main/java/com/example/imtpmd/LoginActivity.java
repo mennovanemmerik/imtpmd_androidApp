@@ -38,7 +38,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity implements SensorEventListener {
+public class LoginActivity extends AppCompatActivity /*implements SensorEventListener*/ {
     private EditText Name;
     publiek p =new publiek();
     private EditText Password;
@@ -81,12 +81,12 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                 validate_userLocalOrAPI(Name.getText().toString(),Password.getText().toString());
             }
         });
-        if(isDonker()){
-            modus("donker");
-        }
-        else{
-            modus("licht");
-        }
+//        if(isDonker()){
+//            modus("donker");
+//        }
+//        else{
+//            modus("licht");
+//        }
     }
 
     public void validate_userLocalOrAPI(final String user, final String password){
@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
             Log.d("logAPI", "onResponse: FALSE IS NOTNOT IN API ");
             counter--;
-            Info.setText("No of attempts remaining " + String.valueOf(counter));
+            Info.setText("No of attempts remaining: " + String.valueOf(counter));
             if (counter <= 0)
                 Login.setEnabled(false);
             //    Log.d("API", "jsonParser: nenee "+windowArray);
@@ -170,17 +170,17 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
 
 
-    private void modus(String mode){
-        Log.d("donker", "modus: aangeroepen in login "+mode);
-        //mode = "licht";
-        if(mode == "donker"){
-            this.getWindow().getDecorView().setBackgroundResource(R.color.colorPrimaryDark);
-            Info.setTextColor(Color.WHITE);
-        }
-        else{
-            this.getWindow().getDecorView().setBackgroundResource(R.color.colorPrimary);
-        }
-    }
+//    private void modus(String mode){
+//        Log.d("donker", "modus: aangeroepen in login "+mode);
+//        //mode = "licht";
+//        if(mode == "donker"){
+//            this.getWindow().getDecorView().setBackgroundResource(R.color.colorPrimaryDark);
+//            Info.setTextColor(Color.WHITE);
+//        }
+//        else{
+//            this.getWindow().getDecorView().setBackgroundResource(R.color.colorPrimary);
+//        }
+//    }
 
     public void save2file(String wat){
 
@@ -275,39 +275,53 @@ return false;
     @Override
     protected void onPause(){
         super.onPause();
-        sensorManager.unregisterListener(this);
+//        sensorManager.unregisterListener(this);
     }
     @Override
     protected void onResume(){
         super.onResume();
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT){
-            Log.d("donke", "onSensorChanged: "+sensorEvent.values[0]+" / "+licht);
-            licht = sensorEvent.values[0];
-         //   mEditText.setText(""+licht);
-        }
+//        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
+//    @Override
+//    public void onSensorChanged(SensorEvent sensorEvent) {
+//        if(sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT){
+//            Log.d("donke", "onSensorChanged: "+sensorEvent.values[0]+" / "+licht);
+//            licht = sensorEvent.values[0];
+//         //   mEditText.setText(""+licht);
+//            checkLight();
+//         //   isDonker();
+//        }
+//    }
+//
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int i) {
+//
+//    }
 
-    }
+//    public boolean checkLight() {
+//        Log.d("donker", "isDonker: aangeroepen in login, licht is "+licht);
+//        int wanneerDonker = 5;
+//        if(licht<wanneerDonker){
+//            Log.d("donker", "isDonker: return true");
+//            return true;
+//        }
+//        else{
+//            Log.d("donker", "isDonker: return false ");
+//            return false;
+//        }
+//    }
 
-    public boolean isDonker(){
-        Log.d("donker", "isDonker: aangeroepen in login, licht is "+licht);
-        int wanneerDonker = 1;
-        if(licht<wanneerDonker){
-            Log.d("donker", "isDonker: return true");
-            return true;
-        }
-        else{
-            Log.d("donker", "isDonker: return false ");
-            return false;
-        }
-    }
+//    public boolean isDonker(){
+//        boolean check = checkLight();
+//        if (check) {
+//            Log.d("isDonker", "true");
+//            return true;
+//        } else {
+//            Log.d("isDonker", "false");
+//            return false;
+//        }
+//    }
 
 
 }
