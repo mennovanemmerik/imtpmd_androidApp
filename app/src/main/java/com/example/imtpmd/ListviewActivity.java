@@ -86,7 +86,7 @@ public class ListviewActivity extends AppCompatActivity {
 
             if(p.internetIsConnected()){
                 getAllModulesAPI(ALL_API_url);
-                getSupportActionBar().setTitle("Alle modules");
+                getSupportActionBar().setTitle("Alle Keuzevakken");
 
             }
             else{
@@ -100,7 +100,7 @@ public class ListviewActivity extends AppCompatActivity {
         else if(wlijst.equals("mijnLijst")){
             if(p.internetIsConnected()){
                 getMyModulesAPI(user);
-                getSupportActionBar().setTitle("Uw modules");
+                getSupportActionBar().setTitle("Uw Keuzevakken");
 
             }
             else{

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        donkermodus();
-        getSupportActionBar().setTitle("Wat wilt u inzien?");
+        getSupportActionBar().setTitle("Keuzevakken App");
 
 
 
