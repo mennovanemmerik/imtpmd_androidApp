@@ -22,6 +22,8 @@
       android:paddingRight="50dp"
       android:text="Alle modules"
       android:onClick="naarAlles"
+      android:background="@color/colorPrimary"
+      android:textColor="#fff"
       tools:layout_editor_absoluteX="123dp" />
 
   <Button
@@ -34,6 +36,8 @@
       android:paddingRight="50dp"
       android:text="Mijn Modules"
       android:onClick="naarMijn"
+      android:background="@color/colorPrimary"
+      android:textColor="#fff"
       tools:layout_editor_absoluteX="123dp" />
 
   <Button
@@ -47,6 +51,8 @@
       android:paddingLeft="0dp"
       android:paddingRight="50dp"
       android:text="Uitloggen"
+      android:background="@color/colorPrimary"
+      android:textColor="#fff"
       tools:layout_editor_absoluteX="123dp" />
 
 
