@@ -27,34 +27,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-
-        android:text="beschrijving vaeen vol k een reicht wir levenn module"
+        android:height="200dp"
+        android:text="beschrijving vaeen vol k een reicht wir lecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levencht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn moduleDAn modulebeschrijving vaeen vol k een reicht wir lecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levencht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn modulecht wir levenDAn moduleDAn modulevenDAn modulevenDAn module"
         android:textSize="16dip"
         app:layout_constraintTop_toBottomOf="@+id/tvmodule" />
-
-    <TextView
-        android:id="@+id/tvstatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="155dp"
-        android:textSize="16dip"
-        android:text="Nog niet ingeschreven"
-        app:layout_constraintTop_toBottomOf="@+id/tvbeschrijving" />
 
 
     <Button
         android:id="@+id/btnjoin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
+        android:layout_marginTop="400dp"
+        android:background="@color/colorPrimary"
         android:padding="10dp"
         android:text="inschrijven"
+        android:textColor="#fff"
         android:textSize="16dip"
         android:textStyle="bold"
-        android:background="@color/colorPrimary"
-        android:textColor="#fff"
-        app:layout_constraintTop_toBottomOf="@+id/tvstatus"
+        app:layout_constraintTop_toBottomOf="@+id/tvbeschrijving"
         tools:layout_editor_absoluteX="123dp" />
 
 

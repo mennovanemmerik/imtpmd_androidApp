@@ -2,10 +2,9 @@ package com.example.imtpmd;
 
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Color;
+
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
+
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +33,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+//Hier word het inloggen geregeld, ook staat er een gecommente functie van wat de nachtmodus had moeten regelen
 
 public class LoginActivity extends AppCompatActivity /*implements SensorEventListener*/ {
     private EditText Name;
@@ -92,6 +93,7 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
     }
 
     public void validate_userLocalOrAPI(final String user, final String password){
+        //Deze kijkt wat er moet gebeuren zonder internet
         if(p.internetIsConnected()==false ){
            if( isDanWelLokaal("user") && isDanWelLokaal("password")) {
                magDoor(true);
@@ -101,6 +103,7 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
            }
            return;
         }
+        //Als het hier verder gaat hebben ze dus wel internet en word de informatie opgehaald uit de API
 
         String url = "http://api.mrtvda.nl/api/gebruikers";
         Log.d("API", "jsonParser: aangeroepen2");
@@ -110,7 +113,6 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
                 JSONArray jsonArray = null;
 
                 try {
-                    Log.d("yas", "onResponse: wait1s");
                     jsonArray = response.getJSONArray("gebruikers");
 
                     boolean klopt = false;
@@ -121,11 +123,10 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
 
                             localSavedUsers.add(gebruikers.getString("email"));
                             localSavedPasswords.add("#"+gebruikers.getString("password")+"*"+gebruikers.getString("email")+"#");
+                            //Hier worden alle ingeladen gebruikers en wachtwoorden lokaal opgeslagen
                         }
 
-
                         if(user.toLowerCase().equals(gebruikers.getString("email").toLowerCase()) && password.equals(gebruikers.getString("password")) ){
-
                             klopt = true;
                         }
                     }
@@ -158,6 +159,7 @@ public class LoginActivity extends AppCompatActivity /*implements SensorEventLis
     }
 
     public void magDoor(boolean magDoor){
+        //Deze functie krijgt een true of false mee(of de login goed was) en zorgt dan voor de gevolgen
         if(magDoor){
 
             //      if ((userName.equals("")) && (userPassword.equals(""))) {

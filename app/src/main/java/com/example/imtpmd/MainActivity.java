@@ -1,27 +1,14 @@
 package com.example.imtpmd;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-
+//Main activity is de activity waar de gebruiker kan kiezen tussen 2 lijsten, of uitloggen --Mainactivity geeft een String(welkelijst) mee aan moduleActivity
 public class MainActivity extends AppCompatActivity {
     Bundle extras = new Bundle();
     @Override

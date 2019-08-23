@@ -31,6 +31,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+//in deze file krijgt de gebruiker meer info te zien over een module
+
+
 public class ModuleActivity extends AppCompatActivity {
     private Button schrijfButton;
     String mnaam;
@@ -47,16 +50,11 @@ public class ModuleActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mQueue = Volley.newRequestQueue(this);
 
-        // saveLokaalBeschrijving("idepa","idepajemoeder beschrijving epic");
-        // loadLokaleBeschrijving("idepa");
-
         TextView moduleNaam = (TextView) findViewById(R.id.tvmodule);
-        TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
+        //TextView moduleStatus = (TextView) findViewById(R.id.tvstatus);
 
         Intent intent = getIntent();
         String text = intent.getStringExtra(ModulesFragment.EXTRA_TEXT);
-
-
 
         final String user = extras.getString("user");
         MY_MODULE_FILE = user+MY_MODULE_FILE;
@@ -92,9 +90,9 @@ public class ModuleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ModuleActivity.this, MainActivity.class);
-                if(isLokaalIngeschreven(mnaam) == false){        //ALS JE NIET BENT INGESCHREVEN DAN STAAT KLIKKEN GLIJK AAN INSCHRIJVEN
+                if(isLokaalIngeschreven(mnaam) == false){
                     //                    schrijfIn(mnaam);
-                          write2API(mnaam,user);
+                    write2API(mnaam,user);
 
                     schrijfButton.setText("Schrijf uit");
                 }
