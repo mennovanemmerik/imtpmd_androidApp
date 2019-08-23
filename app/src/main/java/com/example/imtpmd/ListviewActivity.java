@@ -66,23 +66,21 @@ public class ListviewActivity extends AppCompatActivity {
         extras.putBoolean("geupdate",false);
 
 
-        Log.d("vader", "onCreate:appelpen = "+MY_MODULE_FILE);
+
 //        donkermodus();
 
         load("acc_file.txt"); //User word ff ingeladen
-        Log.d("vader", "onCreate:user= "+user);
-        Log.d("vader", "onCreate:file="+MY_MODULE_FILE);
-        Log.d("appelpen",  user.toString()+"x"+MY_MODULE_FILE.toString());
+
 
         MY_MODULE_FILE = user+MY_MODULE_FILE;
-        Log.d("appelpen", MY_MODULE_FILE);
+        //MY_MODULE_FILE word een combinatie van user en de rest van de filenaam, hierdoor krijg je voor elke user een andere lokale file waar zijn gekozen modules instaan
 
-        //windowArray.add("eerste add in listviewac");
-        //windowArray.add("DEZE IS NIET GESCHREIBEN");
 
         if(wlijst.equals("allesLijst")){
-           // FILE_NAME = "alle_modules.txt";
-         //   windowArray.add("ALLES LIJST ADD IS NOG GELUKT NU OOK OP 13");
+            //wanneer de gebruiker alle modules wilt
+
+
+
 
             if(p.internetIsConnected()){
                 getAllModulesAPI(ALL_API_url);
@@ -90,7 +88,7 @@ public class ListviewActivity extends AppCompatActivity {
 
             }
             else{
-                Log.d("API", "geen internet in alllijst = "+ALL_MODULE_FILE);
+                //geen internet, haal de gevraagde items(alles hier) op uit load
                 load(ALL_MODULE_FILE);
                 opzet();
                 getSupportActionBar().setTitle("(Geen Internet) Alle modules");
@@ -104,34 +102,30 @@ public class ListviewActivity extends AppCompatActivity {
 
             }
             else{
-                Log.d("API", "geen internet in mijnlijst = "+MY_MODULE_FILE);
+
                 load(MY_MODULE_FILE);
                 opzet();
                 getSupportActionBar().setTitle("(Geen Internet) Uw modules");
             }
         }
         else{
-            Log.d("commie","GEEN GELDIGE LIJST");
+
             getSupportActionBar().setTitle("404 geen geldige lijst modules");
         }
     }
 
 
     public void save(){
-        Log.d("API", "save: aangeroepen ");
-        //String text= mEditText.getText().toString();
+        //Deze save word aangeroepen na een succesvolle API call, hij slaat alle items uit windowArray(wat je ziet) op
         String file;
         if(wlijst.equals("allesLijst")){
              file = ALL_MODULE_FILE;
-            Log.d("save", "wLIJST IS ALLESLIJST");
         }
         else{
-            Log.d("ja", wlijst+" file is mijnfile in de else = "+MY_MODULE_FILE);
              file = MY_MODULE_FILE;
         }
 
         String text = windowArray.toString();
-       // Log.d("save", "!IMPORTANT SAVE "+text);
         FileOutputStream fos = null;
         try{
             if(p.internetIsConnected()) {
@@ -158,7 +152,8 @@ public class ListviewActivity extends AppCompatActivity {
 
 
     public void load(String CHOSEN_FILE){
-        Log.d("vaderload", "load: aangeroepen");
+        //Mocht de API niet kunnen worden aangeroepen zal hier de lijst worden aangeroepen vanuit het lokale geheugen
+        //dit kan zijn de lijst met alle modules, alleen gekozen modules of puur "acc_file.txt" waar alleen de ingelogde gebruiker in staat
         Boolean isName=false;
         if(CHOSEN_FILE.equals("acc_file.txt")){
             isName=true;
@@ -166,7 +161,6 @@ public class ListviewActivity extends AppCompatActivity {
 
         File file = new File(getApplicationContext().getFilesDir(),CHOSEN_FILE);
         if (!file.exists()) {
-            Log.d("vaderload", "file bestaat niet: "+CHOSEN_FILE);
             return;
         }
         FileInputStream fis = null;
@@ -176,24 +170,27 @@ public class ListviewActivity extends AppCompatActivity {
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
             String text;
-            Log.d("vaderload", "WHILE  DOES WELL EXIST");
+
             while ((text = br.readLine()) != null) {
                 sb.append(text).append("\n");
             }
 
 
             if(isName){
-//                windowArray.add(sb.toString());
+
                 extras.putString("user", sb.toString());
-                //Log.d("tussenvadertext", "this.user word nu: "+sb.toString().toLowerCase());
+
                 this.user = sb.toString().toLowerCase();
-                Log.d("vaderload", "load: "+sb.toString());
+
             }
             else {
                 String[] ar = sb.toString().substring(1, sb.length() - 2).split(", ", 99);
                 for (int i = 0; i < ar.length; i++) {
-                    Log.d("vaderload", "ADD LOAD " + ar[i]);
-                    windowArray.add(ar[i]);
+
+                    if(ar[i].length() >0) {
+                        windowArray.add(ar[i]);
+                    }
+
 
                 }
 
@@ -220,7 +217,7 @@ public class ListviewActivity extends AppCompatActivity {
 //    }
 
     public void getMyModulesAPI(String user) {
-        Log.d("getMyModules", user);
+
         String url = "http://api.mrtvda.nl/api/inschrijvingen/" + user;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -229,31 +226,22 @@ public class ListviewActivity extends AppCompatActivity {
                 JSONArray jsonArray = null;
 
                 try {
-                    Log.d("APIjson", "onResponse: wait1s");
+
                     jsonArray = response.getJSONArray("inschrijvingen");
-
-                    Log.d("APIjson", "onResponse: "+jsonArray);
-
-                    Log.d("getMyModules", "dit werkt");
-
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject keuzevak = jsonArray.getJSONObject(i);
-
                         String user = keuzevak.getString("keuzevak");
-
                         windowArray.add(user);
-                        Log.d("API", "jsonParser: jajaja "+ user);
-                        //    Log.d("API", "jsonParser: nenee "+windowArray);
                     }
                     save();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("getMyModules", "dit werkt2");
+
                 }finally {
                     opzet();
 
-                    Log.d("jsonAPI", "wat: ");
+
                     return;
                 }
             }
@@ -271,17 +259,17 @@ public class ListviewActivity extends AppCompatActivity {
 
     public void getAllModulesAPI(String url) {
       //  String url = "http://api.mrtvda.nl/api/inschrijvingen/insblau@insblau.nl";
-        Log.d("API", "jsonParser: GET ALL MODULES API AANGEROEPEN");
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 JSONArray jsonArray = null;
 
                 try {
-                    Log.d("APIjson", "onResponse: wait1s");
+
                     jsonArray = response.getJSONArray("Keuzevakken");
 
-                    Log.d("APIjson", "onResponse: "+jsonArray);
+
                     
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -290,8 +278,7 @@ public class ListviewActivity extends AppCompatActivity {
                         String keuzevak = keuzevakken.getString("keuzevak");
 
                         windowArray.add(keuzevak);
-                        Log.d("API", "jsonParser: jajaja "+keuzevak);
-                    //    Log.d("API", "jsonParser: nenee "+windowArray);
+
                     }
                     save();
                 } catch (JSONException e) {
@@ -299,14 +286,14 @@ public class ListviewActivity extends AppCompatActivity {
                 }finally {
                     opzet();
 
-                    Log.d("jsonAPI", "wat: ");
+
                     return;
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Error", "Er is iets fout gegaan");
+
                 error.printStackTrace();
             }
         });
@@ -316,26 +303,22 @@ public class ListviewActivity extends AppCompatActivity {
     }
 
     public void opzet(){
+        //Deze functie pakt de windowArray en zorgt dat je de items kan zien in de lijst
 
         if(windowArray.size()<1  ){
-            Log.d("opzet", "opzet: IS EMPTYH");
             return;
         }
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_textview,windowArray);
         ListView listView = (ListView)findViewById(R.id.window_list);
         listView.setAdapter(adapter);
 
-
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                Log.d("YAS", "je hebt geklukt op: ");
-         //       Toast.makeText(ListviewActivity.this, windowArray.get(position),Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ListviewActivity.this, ModuleActivity.class);
                 extras.putString("moduleNaam", windowArray.get(position));
-
+                //geeft de geklikte naam mee, deze word in moduleActivity opgehaald
 
 
                 intent.putExtras(extras);
