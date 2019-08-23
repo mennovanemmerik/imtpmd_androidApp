@@ -3,34 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:xmlsn="http://schemas.android.com/tools"
-
+    android:background="#e7e7e7"
+    android:paddingBottom="150dp"
+    android:gravity="center"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <!--  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment2"
-        android:name="com.example.imtpmd.ModulesFragment"
-        android:layout_width="match_parent"
-        android:layout_height="367dp"
-        tools:layout_editor_absoluteX="33dp"
-        tools:layout_editor_absoluteY="80dp"
 
-        ></fragment>
-  <Button-
-      android:id="@+id/btnNacht"
+  <Button
+      android:id="@+id/btnAlles"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="228dp"
-      android:text="nacht"
-      android:onClick="nachtModus"
+      android:layout_marginTop="22dp"
+      android:padding="20dp"
+      android:paddingLeft="50dp"
+      android:paddingRight="50dp"
+      android:text="Alle modules"
+      android:onClick="naarAlles"
+      android:background="@color/colorPrimary"
+      android:textColor="#fff"
       tools:layout_editor_absoluteX="123dp" />
-    -->
 
-    <FrameLayout
-        android:id="@+id/fragmentPlaceholder"
-        android:layout_width="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:layout_height="match_parent"></FrameLayout>
-    <!--dit is dynamisch inladen / dit kan ook op live updates(runtime)-->
+  <Button
+      android:id="@+id/btnMijn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:padding="20dp"
+      android:paddingLeft="50dp"
+      android:paddingRight="50dp"
+      android:text="Mijn Modules"
+      android:onClick="naarMijn"
+      android:background="@color/colorPrimary"
+      android:textColor="#fff"
+      tools:layout_editor_absoluteX="123dp" />
+
+  <Button
+      android:id="@+id/btnMijn2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginVertical="10dp"
+      android:layout_marginTop="500dp"
+      android:onClick="naarLogin"
+      android:padding="20dp"
+      android:paddingLeft="0dp"
+      android:paddingRight="50dp"
+      android:text="Uitloggen"
+      android:background="@color/colorPrimary"
+      android:textColor="#fff"
+      tools:layout_editor_absoluteX="123dp" />
+
+
 </LinearLayout>

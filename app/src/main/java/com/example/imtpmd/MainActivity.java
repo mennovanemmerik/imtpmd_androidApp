@@ -1,41 +1,73 @@
 package com.example.imtpmd;
 
-import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 
 public class MainActivity extends AppCompatActivity {
-    String [] alleVakkenArray;
-    View view;
-
+    Bundle extras = new Bundle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-
-        Log.d( "NEGER","NIEGER ");
         setContentView(R.layout.activity_main);
+//        donkermodus();
+        getSupportActionBar().setTitle("Wat wilt u inzien?");
 
-        FragmentTransaction fm = getSupportFragmentManager().beginTransaction();
-        Bundle bundle = new Bundle();
-        String lijst[] = new String[4];
 
-        lijst[0]="d";
-        lijst[1]="o";
-        lijst[2]="c";
-        lijst[3]="k";
-        bundle.putStringArray("lijst", lijst);
-        ModulesFragment mtest = new ModulesFragment();
-        fm.replace(R.id.fragmentPlaceholder, mtest);
-        mtest.setArguments(bundle);
-
-        fm.commit();
 
     }
+    public void naarAlles(View v) {
+        Log.d("note", "naarAlles: aangeroep ");
+        Intent intent = new Intent(MainActivity.this, ListviewActivity.class);
+
+        extras.putString("welkeLijst", "allesLijst");
+        intent.putExtras(extras);
+        startActivity(intent);
+
+    };
+    public void naarMijn(View v) {
+        Log.d("note", "naarmijn aangere: ");
+        Intent intent = new Intent(MainActivity.this, ListviewActivity.class);
+
+        extras.putString("welkeLijst", "mijnLijst");
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+    public void naarLogin(View v) {
+        Log.d("note", "naarLogin aangeroepen");
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+        startActivity(intent);
+    }
+
+//    private void donkermodus(){
+//         LoginActivity login = new LoginActivity();
+//         if( login.isDonker()){
+//             LinearLayout layout = (LinearLayout) findViewById(R.id.background);
+//             layout.setBackgroundResource(R.drawable.luchtnacht);
+//         }
+//    }
+
+//#// hier kan API worden opgehaald en doorgepaast en pas worden weergeven in listviewmocht het niet werken
 
 }
 
